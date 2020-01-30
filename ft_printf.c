@@ -14,7 +14,7 @@
 #include "printf.h"
 
 
-#include "libft/libft.h"
+#include "libft/includes/libft.h"
 
 
 int		ft_strlen_limit(char *str, char delimiter)
@@ -35,19 +35,35 @@ char	*ft_skiparg(char *arg)
 	return (arg);
 }
 
-int		ft_hex_octal(char *str, int width, char prefix, char filler, int precision)
+int		ft_octal(char *nbr, int width, char prefix, char filler, int precision)
 {
+	int		len;
 
+	len = ft_strlen(nbr);
+	if (width < 0)
+		ft_putnchars(filler, width * -1 - len);
+	ft_putstr(nbr);
+	if (width > 0)
+		ft_putnchars(filler, width - len);
+}
+
+int		ft_hex(char *nbr, int width, char prefix, char filler, int precision)
+{
+	int		len;
+
+	len = ft_strlen(nbr);
+	if (width < 0)
+		ft_putnchars(filler, width * -1 - len);
+	ft_putstr(nbr);
+	if (width > 0)
+		ft_putnchars(filler, width - len);
 }
 
 int		ft_printarg(char *arg, va_list vl)
 {
 	int		precision;
-
 	int		width;
-
 	int		valid;
-
 	char	filler;
 	char	prefix;
 
@@ -93,12 +109,12 @@ int		ft_printarg(char *arg, va_list vl)
 			width = ft_chars(NULL, (char)va_arg(vl, int), width, 0, filler, 1);
 
 		else if (*arg == 'o' && !(valid = 0))
-			width = ft_chars(ft_itoa_base(va_arg(vl, int), 8, 1), 0, width, 0, filler, precision);
+			width = ft_octal(ft_itoa_base(va_arg(vl, int), 8, 1), width, prefix, filler, precision);
 		else if ((*arg == 'x' || *arg == 'X') && !(valid = 0))
 		{
 			if (prefix == '#')
 				prefix = *arg;
-			if (!(width = ft_hex_octal(ft_itoa_base(va_arg(vl, int), 16, *arg == 'x' ? 1 : 0), width, prefix, filler, precision)))
+			if (!(width = ft_hex(ft_itoa_base(va_arg(vl, int), 16, *arg == 'x' ? 1 : 0), width, prefix, filler, precision)))
 				return (0);
 		}
 		else if (*arg == 'p' && !(valid = 0))

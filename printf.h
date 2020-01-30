@@ -14,7 +14,7 @@
 # define PRINTF_H
 # include "libft.h"
 
-void				ft_putaddr(void *ptr);
+void	ft_putaddr(void *ptr);
 
 int		ft_printf(char *arg, ...);
 int		ft_float_len(double num, int mark, int floats);
