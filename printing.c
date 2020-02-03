@@ -6,7 +6,7 @@
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 17:50:22 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:52:18 by vkuikka          ###   ########.fr       */
+/*   Updated: 2020/01/30 13:27:32 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ int		ft_chars(char *s, char c, int width, char prefix, char filler, int precisio
 		ft_putchar('0');
 		ft_putchar(prefix);
 	}
-	if (precision > (int)ft_digit_count(ft_atoi_base(s, 16), 16))
-		ft_putnchars('0', precision - ft_digit_count(ft_atoi_base(s, 16), 16));
+	if ((size_t)precision > ft_numlen_base(ft_atoi_base(s, 16), 16))
+		ft_putnchars('0', (size_t)precision - ft_numlen_base(ft_atoi_base(s, 16), 16));
 	if (s)
 		ft_putstr_len(s, precision);
 	else

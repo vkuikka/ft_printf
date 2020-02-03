@@ -23,9 +23,15 @@ void	ft_putnbr_ll(long long num);
 void	ft_putnbr_ull(unsigned long long num);
 
 void	ft_putnchars(char c, int amount);
-void	ft_putstr_len(char *str, long len);
+void	ft_putstr_len(char *str, size_t len);
 int		ft_unsignedlen(unsigned long long num);
 int		ft_signedlen(long long num);
 size_t	ft_numlen_base(long nb, int base);
+
+int		ft_uinteger(unsigned long long num, int plus, int width, char filler);
+int		ft_integer(long long num, char prefix, int width, char fill);
+int		ft_float(double num, char prefix, int width, char fill, int floats);
+int		ft_chars(char *s, char c, int width, char prefix, char filler, int precision);
+int		ft_percent(int width, char filler);
 
 #endif

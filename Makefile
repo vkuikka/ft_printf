@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = libftprintf.a
-FILES = ft_printf.c floats.c putlong.c ft_putaddr.c
+FILES = ft_printf.c floats.c putlong.c ft_putaddr.c printing.c length.c
 OBJ = $(FILES:.c=.o)
 LIBFT = libft/libft.a
 INCLUDE = libft/includes

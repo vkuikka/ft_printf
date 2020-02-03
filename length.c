@@ -56,10 +56,10 @@ size_t	ft_numlen_base(long nb, int base)
 	return (i);
 }
 
-void	ft_putstr_len(char *str, long len)
+void	ft_putstr_len(char *str, size_t len)
 {
 	if (len > 0)
-		write(1, str, ft_strlen(str) > (size_t)len ? len : ft_strlen(str));
+		write(1, str, ft_strlen(str) > len ? (size_t)len : ft_strlen(str));
 	else
 		write(1, str, ft_strlen(str));
 }
