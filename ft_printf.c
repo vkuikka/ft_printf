@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
 #include "printf.h"
 
 
+#include <stdarg.h>
 #include "libft/includes/libft.h"
 
 
@@ -45,73 +45,68 @@ char	*ft_skiparg(char *arg)
 	return (arg);
 }
 
-int		ft_octal(char *nbr, int width, char prefix, char filler, int precision)
+int		ft_octal(char *nbr, t_nums info)
 {
 	int		len;
 
-	(void)prefix;		//space plus minus etc
-	(void)precision;
+	(void)info.prefix;		//space plus minus etc
+	(void)info.precision;
 	len = ft_strlen(nbr);
-	if (width < 0)
-		ft_putnchars(filler, width * -1 - len);
+	if (info.width < 0)
+		ft_putnchars(info.filler, info.width * -1 - len);
 	ft_putstr(nbr);
-	if (width > 0)
-		ft_putnchars(filler, width - len);
-	if (width < 0)
-		width *= -1;
-	if (len > width)
-		width = len;
+	if (info.width > 0)
+		ft_putnchars(info.filler, info.width - len);
+	if (info.width < 0)
+		info.width *= -1;
+	if (len > info.width)
+		info.width = len;
 	return (len);
 }
 
-int		ft_hex(char *nbr, int width, char prefix, char filler, int precision)
+int		ft_hex(char *nbr, t_nums info)
 {
 	int		len;
 
 	len = ft_strlen(nbr);
-	if (prefix == 'x' || prefix == 'X')
+	if (info.prefix == 'x' || info.prefix == 'X')
 		len += 2;
-	if ((size_t)precision > ft_digit_count(ft_atoi_base(nbr, 16), 16))
-		len += precision - ft_digit_count(ft_atoi_base(nbr, 16), 16);
-	if ((filler != ' ' || prefix == '#') && nbr[0] != '0')
+	if ((size_t)info.precision > ft_digit_count(ft_atoi_base(nbr, 16), 16))
+		len += info.precision - ft_digit_count(ft_atoi_base(nbr, 16), 16);
+	if ((info.filler != ' ' || info.prefix == '#') && nbr[0] != '0')
 	{
 		ft_putchar('0');
-		ft_putchar(prefix);
+		ft_putchar(info.prefix);
 	}
-	if (width < 0)
-		ft_putnchars(filler, width * -1 - len);
-	if ((size_t)precision > ft_digit_count(ft_atoi_base(nbr, 16), 16))
-		ft_putnchars('0', precision - ft_digit_count(ft_atoi_base(nbr, 16), 16));
+	if (info.width < 0)
+		ft_putnchars(info.filler, info.width * -1 - len);
+	if ((size_t)info.precision > ft_digit_count(ft_atoi_base(nbr, 16), 16))
+		ft_putnchars('0', info.precision - ft_digit_count(ft_atoi_base(nbr, 16), 16));
 
 	ft_putstr(nbr);
-	filler = ' ';
-	if (width > 0)
-		ft_putnchars(filler, width - len);
-	if (width < 0)
-		width *= -1;
-	if (len > width)
-		width = len;
-	return (width);
+	info.filler = ' ';
+	if (info.width > 0)
+		ft_putnchars(info.filler, info.width - len);
+	if (info.width < 0)
+		info.width *= -1;
+	if (len > info.width)
+		info.width = len;
+	return (info.width);
 }
 
 int		ft_printarg(char *arg, va_list vl)
 {
-	int		precision;
-	int		width;
-	int		valid;
-	int		len;
-	char	filler;
-	char	prefix;
+	t_nums	info;
 
-	filler = ' ';
-	prefix = 0;
-	width = -1;
-	valid = 1;
-	len = 0;
-	precision = -1;
+	info.precision = -1;
+	info.filler = ' ';
+	info.prefix = 0;
+	info.width = -1;
+	info.valid = 1;
+	info.len = 0;
 
 	int i = 0;
-	while (valid)
+	while (info.valid)
 	{
 		i++;
 		if (i > 100)
@@ -119,73 +114,74 @@ int		ft_printarg(char *arg, va_list vl)
 			ft_putstr("error");
 			exit(1);
 		}
+
 		if (ft_isdigit(*arg))
 		{
 			if (*arg == '0')
 			{
-				filler = '0';
+				info.filler = '0';
 				arg++;
 			}
-			if (width == -1)
-				width = ft_atoi(arg) * -1;
+			if (info.width == -1)
+				info.width = ft_atoi(arg) * -1;
 			else
-				width = ft_atoi(arg);
+				info.width = ft_atoi(arg);
 			while (ft_isdigit(*arg))
 				arg++;
 		}
-		if ((*arg == 'd' || *arg == 'i') && !(valid = 0))
-			width = ft_integer(va_arg(vl, int), prefix, width, filler);
-		else if (*arg == 'u' && !(valid = 0))
-			width = ft_uinteger(ft_abs(va_arg(vl, unsigned int)), prefix == '+' ? 1 : 0, width, filler);
-		else if (*arg == 'f' && !(valid = 0))
-			width = ft_float(va_arg(vl, double), prefix == '+' ? 1 : 0, width, filler, precision);
+		if ((*arg == 'd' || *arg == 'i') && !(info.valid = 0))
+			info.width = ft_integer(va_arg(vl, int), info);
+		else if (*arg == 'u' && !(info.valid = 0))
+			info.width = ft_uinteger(ft_abs(va_arg(vl, unsigned int)), info);
+		else if (*arg == 'f' && !(info.valid = 0))
+			info.width = ft_float(va_arg(vl, double), info);
 
-		else if (*arg == 's' && !(valid = 0))
-			width = ft_chars(va_arg(vl, char *), 0 , width, 0, filler, precision);
-		else if (*arg == 'c' && !(valid = 0))
-			width = ft_chars(NULL, (char)va_arg(vl, int), width, 0, filler, 1);
+		else if (*arg == 's' && !(info.valid = 0))
+			info.width = ft_chars(va_arg(vl, char *), 0, info);
+		else if (*arg == 'c' && !(info.valid = 0))
+			info.width = ft_chars(NULL, (char)va_arg(vl, int), info);
 
-		else if (*arg == 'o' && !(valid = 0))
-			width = ft_octal(ft_itoa_base(va_arg(vl, unsigned int), 8, 1), width, prefix, filler, precision);
-		else if ((*arg == 'x' || *arg == 'X') && !(valid = 0))
+		else if (*arg == 'o' && !(info.valid = 0))
+			info.width = ft_octal(ft_itoa_base(va_arg(vl, unsigned int), 8, 1), info);
+		else if ((*arg == 'x' || *arg == 'X') && !(info.valid = 0))
 		{
-			if (prefix == '#')
-				prefix = *arg;
-			if (!(width = ft_hex(ft_itoa_base(va_arg(vl, int), 16, *arg == 'x' ? 1 : 0), width, prefix, filler, precision)))
+			if (info.prefix == '#')
+				info.prefix = *arg;
+			if (!(info.width = ft_hex(ft_itoa_base(va_arg(vl, int), 16, *arg == 'x' ? 1 : 0), info)))
 				return (0);
 		}
-		else if (*arg == 'p' && !(valid = 0))
+		else if (*arg == 'p' && !(info.valid = 0))
 		{
-			if (width < 0)
-				ft_putnchars(' ', width * -1 - 14);
+			if (info.width < 0)
+				ft_putnchars(' ', info.width * -1 - 14);
 			ft_putstr("0x");
 			ft_putaddr((va_arg(vl, void *)));
-			if (width > 0)
-				ft_putnchars(' ', width - 14);
-			if (width  > 0)
-				width += 14;
+			if (info.width > 0)
+				ft_putnchars(' ', info.width - 14);
+			if (info.width  > 0)
+				info.width += 14;
 			else
-				width = 14;
+				info.width = 14;
 		}
 		else if (*arg == 'l')
-			len++;
+			info.len++;
 		else if (*arg == '.' && arg++)
 		{
-			precision = ft_atoi(arg);
-			arg += ft_unsignedlen(precision) - 1;
+			info.precision = ft_atoi(arg);
+			arg += ft_unsignedlen(info.precision) - 1;
 		}
 		else if (*arg == '0')
-			filler = '0';
+			info.filler = '0';
 		else if (*arg == '-')
-			width = 1;
+			info.width = 1;
 		else if (*arg == '+' || *arg == '#' || *arg == ' ')
-			prefix = *arg;
-		if ((*arg == '%') && !(valid = 0))
-			width = ft_percent(width, filler);
-		if (valid)
+			info.prefix = *arg;
+		if ((*arg == '%') && !(info.valid = 0))
+			info.width = ft_percent(info.width, info.filler);
+		if (info.valid)
 			arg++;
 	}
-	return (width);
+	return (info.width);
 }
 
 int		ft_printf(char *arg, ...)

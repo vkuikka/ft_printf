@@ -12,89 +12,89 @@
 
 #include "printf.h"
 
-int		ft_uinteger(unsigned long long num, int plus, int width, char filler)
+int		ft_uinteger(unsigned long long num, t_nums info)
 {
 	int		len;
 
 	len = ft_unsignedlen(num);
-	if (plus && num)
+	if (info.prefix == '+' && num)
 		ft_putchar('+');
-	if (width < 0)
-		ft_putnchars(filler, (width * -1) - len);
+	if (info.width < 0)
+		ft_putnchars(info.filler, (info.width * -1) - len);
 	ft_putnbr_ull(num);
-	if (width > 0)
-		ft_putnchars(filler, width - len);
-	if (width < 0)
-		width *= -1;
-	if (len > width)
-		width = len;
-	return (width);
+	if (info.width > 0)
+		ft_putnchars(info.filler, info.width - len);
+	if (info.width < 0)
+		info.width *= -1;
+	if (len > info.width)
+		info.width = len;
+	return (info.width);
 }
 
-int		ft_integer(long long num, char prefix, int width, char fill)
+int		ft_integer(long long num, t_nums info)
 {
 	int		len;
 
 	len = ft_signedlen(num);
 	if (num < 0)
 	{
-		prefix = '-';
+		info.prefix = '-';
 		num *= -1;
 	}
-	if ((num > 0 && prefix == '+') || prefix == ' ')
+	if ((num > 0 && info.prefix == '+') || info.prefix == ' ')
 		len++;
-	if (fill != ' ' && prefix && num > 0)
-		ft_putchar(prefix);
-	if (width < 0)
-		ft_putnchars(fill, (width * -1) - len);
-	if (fill == ' ' && (prefix == '+' || prefix == '-' || prefix == ' ') && num > 0)
-		ft_putchar(prefix);
+	if (info.filler != ' ' && info.prefix && num > 0)
+		ft_putchar(info.prefix);
+	if (info.width < 0)
+		ft_putnchars(info.filler, (info.width * -1) - len);
+	if (info.filler == ' ' && (info.prefix == '+' || info.prefix == '-' || info.prefix == ' ') && num > 0)
+		ft_putchar(info.prefix);
 	ft_putnbr_ll(num);
-	if (width > 0)
-		ft_putnchars(fill, width - len);
-	if (width < 0)
-		width *= -1;
-	if (len > width)
-		width = len;
-	return (width);
+	if (info.width > 0)
+		ft_putnchars(info.filler, info.width - len);
+	if (info.width < 0)
+		info.width *= -1;
+	if (len > info.width)
+		info.width = len;
+	return (info.width);
 }
 
-int		ft_float(double num, char prefix, int width, char fill, int floats)
+int		ft_float(double num, t_nums info)
 {
 	int		len;
 
-	if (floats == -1)
-		floats = 6;
-	len = ft_float_len(num, prefix ? 1 : 0, floats);
+	if (info.precision == -1)
+		info.precision = 6;
+	len = ft_float_len(num, info.prefix ? 1 : 0, info.precision);
 	if (num < 0)
 	{
 		// if (width < 0)
 		// 	width--;
 		// else if (prefix)
 		// 	width++;
-		if (fill == '0')
+		if (info.filler == '0')
 		{
 			ft_putchar('-');
 			num *= -1;
 		}
 	}
-	if (fill != ' ' && prefix && num > 0)
-		ft_putchar(prefix);
-	if (width < 0)
-		ft_putnchars(fill, (width * -1) - len);
-	if (fill == ' ' && prefix && num > 0)
-		ft_putchar(prefix);
-	ft_putfloat(num, prefix ? 1 : 0, floats);
-	if (width > 0)
-		ft_putnchars(fill, width - len);
-	if (width < 0)
-		width *= -1;
-	if (len > width)
-		width = len;
-	return (width);
+	if (info.filler != ' ' && info.prefix && num > 0)
+		ft_putchar(info.prefix);
+	if (info.width < 0)
+		ft_putnchars(info.filler, (info.width * -1) - len);
+	if (info.filler == ' ' && info.prefix && num > 0)
+		ft_putchar(info.prefix);
+	ft_putfloat(num, info.prefix ? 1 : 0, info.precision);
+	if (info.width > 0)
+		ft_putnchars(info.filler, info.width - len);
+	if (info.width < 0)
+		info.width *= -1;
+	if (len > info.width)
+		info.width = len;
+	return (info.width);
 }
 
-int		ft_chars(char *s, char c, int width, char prefix, char filler, int precision)
+int		ft_chars(char *s, char c, t_nums info)
 {
 	int		len;
 
@@ -106,35 +106,35 @@ int		ft_chars(char *s, char c, int width, char prefix, char filler, int precisio
 	}
 	if (s)
 		len = ft_strlen(s);
-	if ((prefix == 'x' || prefix == 'X') && ((s && s[0] != '0') || (!s && c != '0')))
+	if ((info.prefix == 'x' || info.prefix == 'X') && ((s && s[0] != '0') || (!s && c != '0')))
 		len += 2;
-	if ((prefix == 'x' || prefix == 'X') && filler != ' ' && ((s && s[0] != '0') || (!s && c != '0')))
+	if ((info.prefix == 'x' || info.prefix == 'X') && info.filler != ' ' && ((s && s[0] != '0') || (!s && c != '0')))
 	{
 		ft_putchar('0');
-		ft_putchar(prefix);
+		ft_putchar(info.prefix);
 	}
-	if (width < 0)
-		ft_putnchars(filler, width * -1 - len);
-	if ((prefix == 'x' || prefix == 'X') && filler == ' ' && ((s && s[0] != '0') || (!s && c != '0')))
+	if (info.width < 0)
+		ft_putnchars(info.filler, info.width * -1 - len);
+	if ((info.prefix == 'x' || info.prefix == 'X') && info.filler == ' ' && ((s && s[0] != '0') || (!s && c != '0')))
 	{
 		ft_putchar('0');
-		ft_putchar(prefix);
+		ft_putchar(info.prefix);
 	}
-	if ((size_t)precision > ft_numlen_base(ft_atoi_base(s, 16), 16))
-		ft_putnchars('0', (size_t)precision - ft_numlen_base(ft_atoi_base(s, 16), 16));
+	if ((size_t)info.precision > ft_numlen_base(ft_atoi_base(s, 16), 16))
+		ft_putnchars('0', (size_t)info.precision - ft_numlen_base(ft_atoi_base(s, 16), 16));
 	if (s)
-		ft_putstr_len(s, precision);
+		ft_putstr_len(s, info.precision);
 	else
 		ft_putchar(c);
-	if (prefix == 'X' || prefix == 'x')
-		filler = ' ';
-	if (width > 0)
-		ft_putnchars(filler, width - len);
-	if (width < 0)
-		width *= -1;
-	if (len > width)
-		width = len;
-	return (width);
+	if (info.prefix == 'X' || info.prefix == 'x')
+		info.filler = ' ';
+	if (info.width > 0)
+		ft_putnchars(info.filler, info.width - len);
+	if (info.width < 0)
+		info.width *= -1;
+	if (len > info.width)
+		info.width = len;
+	return (info.width);
 }
 
 int		ft_percent(int width, char filler)

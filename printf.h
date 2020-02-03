@@ -6,13 +6,24 @@
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 22:06:27 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/27 17:59:35 by vkuikka          ###   ########.fr       */
+/*   Updated: 2020/02/03 18:21:19 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRINTF_H
 # define PRINTF_H
+# include <stdarg.h>	//remove from ft_printf.c
 # include "libft.h"
+
+typedef struct	s_nums
+{
+	int			precision;
+	int			width;
+	int			valid;
+	int			len;
+	char		filler;
+	char		prefix;
+}				t_nums;
 
 void	ft_putaddr(void *ptr);
 
@@ -28,10 +39,11 @@ int		ft_unsignedlen(unsigned long long num);
 int		ft_signedlen(long long num);
 size_t	ft_numlen_base(long nb, int base);
 
-int		ft_uinteger(unsigned long long num, int plus, int width, char filler);
-int		ft_integer(long long num, char prefix, int width, char fill);
-int		ft_float(double num, char prefix, int width, char fill, int floats);
-int		ft_chars(char *s, char c, int width, char prefix, char filler, int precision);
+int		ft_uinteger(unsigned long long num, t_nums info);
+int		ft_integer(long long num, t_nums info);
+int		ft_float(double num, t_nums info);
+int		ft_chars(char *s, char c, t_nums info);
+
 int		ft_percent(int width, char filler);
 
 #endif
