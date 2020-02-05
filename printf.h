@@ -20,7 +20,7 @@ typedef struct	s_nums
 	int			precision;
 	int			width;
 	int			valid;
-	int			len;
+	int			intsize;
 	char		filler;
 	char		prefix;
 }				t_nums;
@@ -42,7 +42,7 @@ size_t	ft_numlen_base(long nb, int base);
 int		ft_uinteger(unsigned long long num, t_nums info);
 int		ft_integer(long long num, t_nums info);
 int		ft_float(double num, t_nums info);
-int		ft_chars(char *s, char c, t_nums info);
+int		ft_strings(char *s, char c, t_nums info);
 
 int		ft_percent(int width, char filler);
 

@@ -94,7 +94,7 @@ int		ft_float(double num, t_nums info)
 	return (info.width);
 }
 
-int		ft_chars(char *s, char c, t_nums info)
+int		ft_strings(char *s, char c, t_nums info)
 {
 	int		len;
 
