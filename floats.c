@@ -20,7 +20,7 @@ static int	ft_putfloat_float(double num, int len)
 	n = 0;
 	reslen = 0;
 	write(1, ".", 1);
-	while (--len && (num *= 10))
+	while (--len && (num *= 10))		//16 decimals
 	{
 		n = num + '0';
 		write(1, &n, 1);
@@ -38,7 +38,7 @@ static int	ft_putfloat_float(double num, int len)
 	return (reslen);
 }
 
-int			ft_putfloat(double num, int mark, int floats)
+int			ft_putfloat(double num, int floats)
 {
 	int		div;
 	int		n;
@@ -49,9 +49,7 @@ int			ft_putfloat(double num, int mark, int floats)
 	reslen = 0;
 	while ((int)num / (div * 10))
 		div *= 10;
-	if (mark && num > 0 && (++reslen))
-		write(1, "+", 1);
-	else if (num < 0 && (num *= -1) && (++reslen))
+	if (num < 0 && (num *= -1) && (++reslen))
 		write(1, "-", 1);
 	while (div && (n = num / div + '0'))
 	{
@@ -84,7 +82,7 @@ static int	ft_floatfloat_len(double num, int len)
 	return (reslen);
 }
 
-int			ft_float_len(double num, int mark, int floats)
+int			ft_float_len(double num, int floats)
 {
 	int		div;
 	int		n;
@@ -95,9 +93,7 @@ int			ft_float_len(double num, int mark, int floats)
 	reslen = 0;
 	while ((int)num / (div * 10))
 		div *= 10;
-	if (mark && num)
-		reslen++;
-	else if (num < 0 && (num *= -1))
+	if (num < 0 && (num *= -1))
 		reslen++;
 	while (div && (n = num / div + '0'))
 	{

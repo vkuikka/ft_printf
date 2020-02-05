@@ -94,10 +94,8 @@ int		ft_hex(char *nbr, t_nums info)
 	if (info.prefix == 'x' || info.prefix == 'X')
 		len += 2;
 	if (info.width > 0)
-		ft_putnchars(info.filler, info.width - (len + (info.precision - len > 0 ? info.precision - len : 0)));
-	if (info.width < 0)
-		info.width *= -1;
-	if (len > info.width)
+		ft_putnchars(' ', info.width - (len + (info.precision - len > 0 ? info.precision - len : 0)));
+	if (len > ft_abs(info.width))
 		info.width = len;
 	return (info.width);
 }
@@ -105,9 +103,9 @@ int		ft_hex(char *nbr, t_nums info)
 int		ft_nums(va_list vl, t_nums info, char arg)
 {
 	if (arg == 'd' || arg == 'i')
-		info.width = ft_integer(va_arg(vl, int), info);
+		info.width = ft_integer(va_arg(vl, long long), info);
 	else if (arg == 'u')
-		info.width = ft_uinteger(va_arg(vl, unsigned int), info);
+		info.width = ft_uinteger(va_arg(vl, unsigned long long), info);
 	else if (arg == 'f')
 		info.width = ft_float(va_arg(vl, double), info);
 	return (info.width);
@@ -121,12 +119,12 @@ int		ft_chars(va_list vl, t_nums info, char arg)
 		info.width = ft_strings(NULL, (char)va_arg(vl, int), info);
 
 	else if (arg == 'o' && !(info.valid = 0))
-		info.width = ft_octal(ft_itoa_base(va_arg(vl, unsigned int), 8, 1), info);
+		info.width = ft_octal(ft_itoa_base(va_arg(vl, unsigned long long), 8, 1), info);
 	else if ((arg == 'x' || arg == 'X') && !(info.valid = 0))
 	{
 		if (info.prefix == '#')
 			info.prefix = arg;
-		if (!(info.width = ft_hex(ft_itoa_base(va_arg(vl, int), 16, arg == 'x' ? 1 : 0), info)))
+		if (!(info.width = ft_hex(ft_itoa_base(va_arg(vl, unsigned long long), 16, arg == 'x' ? 1 : 0), info)))
 			return (0);
 	}
 	else if (arg == 'p' && !(info.valid = 0))
@@ -184,10 +182,10 @@ int		ft_printarg(char *arg, va_list vl)
 			exit(1);
 		}
 
+		if (*arg == '0' && (info.filler = '0'))
+			arg++;
 		if (ft_isdigit(*arg) && info.precision == -1)
 		{
-			if (*arg == '0' && (info.filler = '0'))
-				arg++;
 			info.width = ft_atoi(arg) * (info.width == -1 ? -1 : 1);
 			while (ft_isdigit(*arg))
 				arg++;

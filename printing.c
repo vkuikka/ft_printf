@@ -17,16 +17,14 @@ int		ft_uinteger(unsigned long long num, t_nums info)
 	int		len;
 
 	len = ft_unsignedlen(num);
-	if (info.prefix == '+' && num)
-		ft_putchar('+');
+	if ((info.prefix == '+' || info.prefix == ' ') && num)
+		ft_putchar(info.prefix);
 	if (info.width < 0)
 		ft_putnchars(info.filler, (info.width * -1) - len);
 	ft_putnbr_ull(num);
 	if (info.width > 0)
 		ft_putnchars(info.filler, info.width - len);
-	if (info.width < 0)
-		info.width *= -1;
-	if (len > info.width)
+	if (len > ft_abs(info.width))
 		info.width = len;
 	return (info.width);
 }
@@ -43,18 +41,18 @@ int		ft_integer(long long num, t_nums info)
 	}
 	if ((num > 0 && info.prefix == '+') || info.prefix == ' ')
 		len++;
-	if (info.filler != ' ' && info.prefix && num > 0)
+
+	if (info.filler != ' ' && info.prefix && info.prefix != '#')
 		ft_putchar(info.prefix);
 	if (info.width < 0)
 		ft_putnchars(info.filler, (info.width * -1) - len);
-	if (info.filler == ' ' && (info.prefix == '+' || info.prefix == '-' || info.prefix == ' ') && num > 0)
+	if (info.filler == ' ' && info.prefix && info.prefix != '#')
 		ft_putchar(info.prefix);
+
 	ft_putnbr_ll(num);
 	if (info.width > 0)
 		ft_putnchars(info.filler, info.width - len);
-	if (info.width < 0)
-		info.width *= -1;
-	if (len > info.width)
+	if (len > ft_abs(info.width))
 		info.width = len;
 	return (info.width);
 }
@@ -65,31 +63,27 @@ int		ft_float(double num, t_nums info)
 
 	if (info.precision == -1)
 		info.precision = 6;
-	len = ft_float_len(num, info.prefix ? 1 : 0, info.precision);
+	len = ft_float_len(num, info.precision);
 	if (num < 0)
 	{
-		// if (width < 0)
-		// 	width--;
-		// else if (prefix)
-		// 	width++;
-		if (info.filler == '0')
-		{
-			ft_putchar('-');
-			num *= -1;
-		}
+		info.prefix = '-';
+		num *= -1;
 	}
-	if (info.filler != ' ' && info.prefix && num > 0)
+	if ((num > 0 && info.prefix == '+') || info.prefix == ' ')
+		len++;
+
+	if (info.filler != ' ' && info.prefix && info.prefix != '#')
 		ft_putchar(info.prefix);
 	if (info.width < 0)
 		ft_putnchars(info.filler, (info.width * -1) - len);
-	if (info.filler == ' ' && info.prefix && num > 0)
+	if (info.filler == ' ' && info.prefix && info.prefix != '#')
 		ft_putchar(info.prefix);
-	ft_putfloat(num, info.prefix ? 1 : 0, info.precision);
+	ft_putfloat(num, info.precision);
+
 	if (info.width > 0)
 		ft_putnchars(info.filler, info.width - len);
-	if (info.width < 0)
-		info.width *= -1;
-	if (len > info.width)
+
+	if (len > ft_abs(info.width))
 		info.width = len;
 	return (info.width);
 }
@@ -130,9 +124,7 @@ int		ft_strings(char *s, char c, t_nums info)
 		info.filler = ' ';
 	if (info.width > 0)
 		ft_putnchars(info.filler, info.width - len);
-	if (info.width < 0)
-		info.width *= -1;
-	if (len > info.width)
+	if (len > ft_abs(info.width))
 		info.width = len;
 	return (info.width);
 }

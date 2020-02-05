@@ -28,8 +28,8 @@ typedef struct	s_nums
 void	ft_putaddr(void *ptr);
 
 int		ft_printf(char *arg, ...);
-int		ft_float_len(double num, int mark, int floats);
-int		ft_putfloat(double num, int mark, int floats);
+int		ft_float_len(double num, int floats);
+int		ft_putfloat(double num, int floats);
 void	ft_putnbr_ll(long long num);
 void	ft_putnbr_ull(unsigned long long num);
 
