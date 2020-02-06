@@ -17,6 +17,16 @@ int		ft_uinteger(unsigned long long num, t_nums info)
 	int		len;
 
 	len = ft_unsignedlen(num);
+	if (info.intsize == -1)
+		num = (unsigned short)num;
+	else if (info.intsize <= -2)
+		num = (unsigned char)num;
+	else if (info.intsize == 0)
+		num = (unsigned int)num;
+	else if (info.intsize == 1)
+		num = (unsigned long)num;
+	else if (info.intsize >= 2)
+		num = (unsigned long long)num;
 	if ((info.prefix == '+' || info.prefix == ' ') && num)
 		ft_putchar(info.prefix);
 	if (info.width < 0)
@@ -34,6 +44,17 @@ int		ft_integer(long long num, t_nums info)
 	int		len;
 
 	len = ft_signedlen(num);
+
+	if (info.intsize == -1)
+		num = (short)num;
+	else if (info.intsize <= -2)
+		num = (signed char)num;
+	else if (info.intsize == 0)
+		num = (int)num;
+	else if (info.intsize == 1)
+		num = (long)num;
+	else if (info.intsize >= 2)
+		num = (long long)num;
 	if (num < 0)
 	{
 		info.prefix = '-';
