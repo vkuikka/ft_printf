@@ -6,7 +6,7 @@
 #    By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/08 13:46:11 by vkuikka           #+#    #+#              #
-#    Updated: 2020/01/29 15:31:39 by vkuikka          ###   ########.fr        #
+#    Updated: 2020/02/07 18:16:37 by vkuikka          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,3 +50,4 @@ fclean: clean
 
 re: fclean
 	make all
+	make mainre

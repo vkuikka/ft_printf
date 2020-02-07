@@ -16,7 +16,7 @@ int		ft_uinteger(unsigned long long num, t_nums info)
 {
 	int		len;
 
-	len = ft_unsignedlen(num);
+	len = ft_unsignedlen(num) < info.precision ? info.precision : ft_unsignedlen(num);
 	if (info.intsize == -1)
 		num = (unsigned short)num;
 	else if (info.intsize <= -2)
@@ -31,6 +31,8 @@ int		ft_uinteger(unsigned long long num, t_nums info)
 		ft_putchar(info.prefix);
 	if (info.width < 0)
 		ft_putnchars(info.filler, (info.width * -1) - len);
+	if (info.precision > ft_unsignedlen(num))
+		ft_putnchars('0', info.precision - ft_unsignedlen(num));
 	ft_putnbr_ull(num);
 	if (info.width > 0)
 		ft_putnchars(info.filler, info.width - len);
@@ -43,7 +45,7 @@ int		ft_integer(long long num, t_nums info)
 {
 	int		len;
 
-	len = ft_signedlen(num);
+	len = ft_signedlen(num) < info.precision ? info.precision : ft_signedlen(num);
 
 	if (info.intsize == -1)
 		num = (short)num;
@@ -69,7 +71,8 @@ int		ft_integer(long long num, t_nums info)
 		ft_putnchars(info.filler, (info.width * -1) - len);
 	if (info.filler == ' ' && info.prefix && info.prefix != '#')
 		ft_putchar(info.prefix);
-
+	if (info.precision > ft_signedlen(num))
+		ft_putnchars('0', info.precision - ft_signedlen(num));
 	ft_putnbr_ll(num);
 	if (info.width > 0)
 		ft_putnchars(info.filler, info.width - len);
@@ -135,7 +138,7 @@ int		ft_strings(char *s, char c, t_nums info)
 		ft_putchar('0');
 		ft_putchar(info.prefix);
 	}
-	if ((size_t)info.precision > ft_numlen_base(ft_atoi_base(s, 16), 16))
+	if (s && (size_t)info.precision > ft_numlen_base(ft_atoi_base(s, 16), 16))
 		ft_putnchars('0', (size_t)info.precision - ft_numlen_base(ft_atoi_base(s, 16), 16));
 	if (s)
 		ft_putstr_len(s, info.precision);

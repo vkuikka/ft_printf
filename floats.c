@@ -85,5 +85,6 @@ int			ft_float_len(double num, int floats)
 		reslen++;
 	}
 	reslen += floats + 1;
+	// ft_putnbr(reslen);
 	return (reslen);
 }

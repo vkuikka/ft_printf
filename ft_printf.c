@@ -48,10 +48,12 @@ char	*ft_skiparg(char *arg)
 int		ft_octal(char *nbr, t_nums info)
 {
 	int		len;
+	int		ret;
 
 	len = ft_strlen(nbr) + (info.precision - (int)ft_strlen(nbr) > 0 ? info.precision - ft_strlen(nbr) : 0);
-	if (len < 0)
-		ft_putnbr(len);
+	ret = info.precision > info.width ? info.precision : info.width;
+	ret = ft_strlen(nbr) > (size_t)ft_abs(ret) ? ft_strlen(nbr) : ret;
+	// ret = len;
 	if (info.prefix == '#' && !info.precision)
 		len++;
 	if (info.width < 0)
@@ -66,7 +68,7 @@ int		ft_octal(char *nbr, t_nums info)
 		ft_putnchars(info.filler, info.width - len);
 	if (len > ft_abs(info.width))
 		info.width = len;
-	return (ft_abs(len));
+	return (ret);
 }
 
 int		ft_hex(char *nbr, t_nums info)
@@ -74,6 +76,11 @@ int		ft_hex(char *nbr, t_nums info)
 	int		len;
 
 	len = ft_strlen(nbr);
+	if (!info.precision)
+	{
+		ft_putnchars(' ', ft_abs(info.width));
+		return (ft_abs(info.width));
+	}
 	if (nbr[0] != '0' && (info.prefix == 'x' || info.prefix == 'X') && info.filler != ' ')
 	{
 		ft_putchar('0');
@@ -100,6 +107,8 @@ int		ft_hex(char *nbr, t_nums info)
 		ft_putnchars(' ', info.width - (len + (info.precision - len > 0 ? info.precision - len : 0)));
 	if (len > ft_abs(info.width))
 		info.width = len;
+	if (nbr[0] == '0' && nbr[1] == '\0')
+		info.width = 1;
 	return (ft_abs(info.width));
 }
 
@@ -111,8 +120,12 @@ int		ft_nums(va_list vl, t_nums info, char arg)
 			info.width = ft_integer(va_arg(vl, int), info);
 		else if (info.intsize == 1)
 			info.width = ft_integer(va_arg(vl, long), info);
-		else if (info.intsize == 2)
+		else if (info.intsize >= 2)
 			info.width = ft_integer(va_arg(vl, long long), info);
+		else if (info.intsize == -1)
+			info.width = ft_integer((short)va_arg(vl, int), info);
+		else if (info.intsize <= -2)
+			info.width = ft_integer((char)va_arg(vl, int), info);
 	}
 	else if (arg == 'u')
 	{
@@ -120,14 +133,15 @@ int		ft_nums(va_list vl, t_nums info, char arg)
 			info.width = ft_uinteger(va_arg(vl, unsigned int), info);
 		else if (info.intsize == 1)
 			info.width = ft_uinteger(va_arg(vl, unsigned long), info);
-		else if (info.intsize == 2)
+		else if (info.intsize >= 2)
 			info.width = ft_uinteger(va_arg(vl, unsigned long long), info);
+		else if (info.intsize == -1)
+			info.width = ft_uinteger((unsigned short)va_arg(vl, unsigned int), info);
+		else if (info.intsize <= -2)
+			info.width = ft_uinteger((unsigned int)va_arg(vl, unsigned int), info);
 	}
-	else if (arg == 'f')
+	else if (arg == 'f' || arg == 'L')
 		info.width = ft_float(va_arg(vl, double), info);
-	// ft_putstr("\n");
-	// ft_putnbr(info.width);
-	// ft_putstr("\n");
 	return (ft_abs(info.width));
 }
 
@@ -148,8 +162,12 @@ int		ft_chars(va_list vl, t_nums info, char arg)
 			info.width = ft_hex(ft_itoa_base(va_arg(vl, unsigned int), 16, arg == 'x' ? 1 : 0), info);
 		else if (info.intsize == 1)
 			info.width = ft_hex(ft_itoa_base(va_arg(vl, unsigned long), 16, arg == 'x' ? 1 : 0), info);
-		else if (info.intsize == 2)
+		else if (info.intsize >= 2)
 			info.width = ft_hex(ft_itoa_base(va_arg(vl, unsigned long long), 16, arg == 'x' ? 1 : 0), info);
+		else if (info.intsize == -1)
+			info.width = ft_hex(ft_itoa_base((unsigned short)va_arg(vl, unsigned int), 16, arg == 'x' ? 1 : 0), info);
+		else if (info.intsize <= -2)
+			info.width = ft_hex(ft_itoa_base((unsigned char)va_arg(vl, unsigned int), 16, arg == 'x' ? 1 : 0), info);
 	}
 	else if (arg == 'p' && !(info.valid = 0))
 	{
@@ -216,7 +234,7 @@ int		ft_printarg(char *arg, va_list vl)
 			while (ft_isdigit(*arg))
 				arg++;
 		}
-		if ((*arg == 'd' || *arg == 'i' || *arg == 'u' || *arg == 'f') && !(info.valid = 0))
+		if ((*arg == 'd' || *arg == 'i' || *arg == 'u' || *arg == 'f' || *arg == 'L') && !(info.valid = 0))
 			info.width = ft_nums(vl, info, *arg);
 		else if ((*arg == 's' || *arg == 'c' || *arg == 'o' || *arg == 'x' || *arg == 'X' || *arg == 'p') && !(info.valid = 0))
 			info.width = ft_chars(vl, info, *arg);
