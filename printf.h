@@ -37,12 +37,12 @@ void	ft_putnchars(char c, int amount);
 void	ft_putstr_len(char *str, size_t len);
 int		ft_unsignedlen(unsigned long long num);
 int		ft_signedlen(long long num);
-size_t	ft_numlen_base(long nb, int base);
+size_t	ft_numlen_base(long long nb, int base);
 
 int		ft_uinteger(unsigned long long num, t_nums info);
 int		ft_integer(long long num, t_nums info);
 int		ft_float(double num, t_nums info);
-int		ft_strings(char *s, char c, t_nums info);
+int		ft_string(char *s, char c, t_nums info);
 
 int		ft_percent(int width, char filler);
 

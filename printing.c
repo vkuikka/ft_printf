@@ -73,7 +73,10 @@ int		ft_integer(long long num, t_nums info)
 		ft_putchar(info.prefix);
 	if (info.precision > ft_signedlen(num))
 		ft_putnchars('0', info.precision - ft_signedlen(num));
-	ft_putnbr_ll(num);
+	if (!info.precision && !num)
+		ft_putnchars(' ', ft_numlen_base(num, 10));
+	else
+		ft_putnbr_ll(num);
 	if (info.width > 0)
 		ft_putnchars(info.filler, info.width - len);
 	if (len > ft_abs(info.width))
@@ -112,40 +115,27 @@ int		ft_float(double num, t_nums info)
 	return (info.width);
 }
 
-int		ft_strings(char *s, char c, t_nums info)
+int		ft_string(char *s, char c, t_nums info)
 {
 	int		len;
 
-	len = 1;
+	len = s ? ft_strlen(s) : 1;
 	if (!s && !c)
 	{
 		ft_putstr("(null)");
 		return (6);
 	}
-	if (s)
-		len = ft_strlen(s);
-	if ((info.prefix == 'x' || info.prefix == 'X') && ((s && s[0] != '0') || (!s && c != '0')))
-		len += 2;
-	if ((info.prefix == 'x' || info.prefix == 'X') && info.filler != ' ' && ((s && s[0] != '0') || (!s && c != '0')))
-	{
-		ft_putchar('0');
-		ft_putchar(info.prefix);
-	}
-	if (info.width < 0)
+
+	if ((s && info.width - ft_strlen(s) < 0) || (!s && info.width < -1))
 		ft_putnchars(info.filler, info.width * -1 - len);
-	if ((info.prefix == 'x' || info.prefix == 'X') && info.filler == ' ' && ((s && s[0] != '0') || (!s && c != '0')))
-	{
-		ft_putchar('0');
-		ft_putchar(info.prefix);
-	}
 	if (s && (size_t)info.precision > ft_numlen_base(ft_atoi_base(s, 16), 16))
-		ft_putnchars('0', (size_t)info.precision - ft_numlen_base(ft_atoi_base(s, 16), 16));
+		ft_putnchars(' ', (size_t)info.precision - ft_numlen_base(ft_atoi_base(s, 16), 16));
+
 	if (s)
 		ft_putstr_len(s, info.precision);
 	else
 		ft_putchar(c);
-	if (info.prefix == 'X' || info.prefix == 'x')
-		info.filler = ' ';
+
 	if (info.width > 0)
 		ft_putnchars(info.filler, info.width - len);
 	if (len > ft_abs(info.width))

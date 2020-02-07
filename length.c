@@ -46,7 +46,7 @@ int		ft_unsignedlen(unsigned long long num)
 	return (len);
 }
 
-size_t	ft_numlen_base(long nb, int base)
+size_t	ft_numlen_base(long long nb, int base)
 {
 	size_t		i;
 

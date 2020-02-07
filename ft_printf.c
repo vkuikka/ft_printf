@@ -53,9 +53,14 @@ int		ft_octal(char *nbr, t_nums info)
 	len = ft_strlen(nbr) + (info.precision - (int)ft_strlen(nbr) > 0 ? info.precision - ft_strlen(nbr) : 0);
 	ret = info.precision > info.width ? info.precision : info.width;
 	ret = ft_strlen(nbr) > (size_t)ft_abs(ret) ? ft_strlen(nbr) : ret;
-	// ret = len;
-	if (info.prefix == '#' && !info.precision)
-		len++;
+
+	// if (info.prefix == '#' && !info.precision)
+	// 	len++;
+	if (!info.precision)
+	{
+		ft_putnchars(' ', ft_abs(info.width));
+		return (ft_abs(info.width));
+	}
 	if (info.width < 0)
 		ft_putnchars(info.filler, info.width * -1 - len);
 	if (info.prefix == '#')
@@ -148,9 +153,9 @@ int		ft_nums(va_list vl, t_nums info, char arg)
 int		ft_chars(va_list vl, t_nums info, char arg)
 {
 	if (arg == 's' && !(info.valid = 0))
-		info.width = ft_strings(va_arg(vl, char *), 0, info);
+		info.width = ft_string(va_arg(vl, char *), 0, info);
 	else if (arg == 'c' && !(info.valid = 0))
-		info.width = ft_strings(NULL, (char)va_arg(vl, int), info);
+		info.width = ft_string(NULL, (char)va_arg(vl, int), info);
 
 	else if (arg == 'o' && !(info.valid = 0))
 		info.width = ft_octal(ft_itoa_base(va_arg(vl, unsigned long long), 8, 1), info);
