@@ -1,40 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/19 17:18:22 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/10/28 12:35:02 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
+void	ft_bzero(void *s, size_t n)
 {
-	unsigned long long	div;
-	int					len;
+	size_t	i;
+	char	*st;
 
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
+	i = 0;
+	st = (char *)s;
+	while (i < n)
 	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
-{
-	int		i;
-
-	i = 1;
-	while (nb /= base)
+		st[i] = 0;
 		i++;
-	return (i);
+	}
 }

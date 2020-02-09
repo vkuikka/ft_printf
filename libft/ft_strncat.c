@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/22 22:07:55 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/10/28 12:48:55 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
+char	*ft_strncat(char *s1, const char *s2, size_t n)
 {
-	unsigned long long	div;
-	int					len;
+	size_t	i;
+	char	*ptr;
 
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
+	i = 0;
+	ptr = s1;
+	while (*s1)
+		s1++;
+	while (*s2 && i < n)
 	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
-{
-	int		i;
-
-	i = 1;
-	while (nb /= base)
+		*s1 = *s2;
+		s1++;
+		s2++;
 		i++;
-	return (i);
+	}
+	*s1 = '\0';
+	return (ptr);
 }

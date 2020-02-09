@@ -1,40 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_strsplit_int.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/12/08 13:25:36 by vkuikka           #+#    #+#             */
+/*   Updated: 2020/01/08 15:32:20 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
-{
-	unsigned long long	div;
-	int					len;
-
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
-	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
+int			*ft_strsplit_int(char *s, char c)
 {
 	int		i;
+	int		*ret;
 
-	i = 1;
-	while (nb /= base)
-		i++;
-	return (i);
+	i = 0;
+	if (!(ret = (int *)malloc(sizeof(int) * ft_word_count(s, c))))
+		return (NULL);
+	while (*s)
+	{
+		if (*s != c && *s)
+		{
+			ret[i] = ft_atoi(s);
+			i++;
+		}
+		while (*s != c && *s)
+			s++;
+		while (*s == c && *s)
+			s++;
+	}
+	return (ret);
 }

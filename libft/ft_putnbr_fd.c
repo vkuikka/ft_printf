@@ -1,46 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printing.c                                         :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/27 17:59:41 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/02/09 15:29:57 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/20 22:35:09 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/10/21 20:02:47 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-void	ft_putaddr(void *ptr)
+void	ft_putnbr_fd(int n, int fd)
 {
-	long	num;
-
-	num = (long)ptr;
-	ft_putnbr_base(num, 16, 1);
-}
-
-void	ft_putstr_len(char *str, size_t len)
-{
-	write(1, str, ft_strlen(str) > len ? (size_t)len : ft_strlen(str));
-}
-
-void	ft_putnchars(char c, int amount)
-{
-	while (amount > 0)
+	if (n == -2147483648)
 	{
-		write(1, &c, 1);
-		amount--;
+		write(fd, "-2147483648", 11);
+		return ;
 	}
-}
-
-void	ft_putnbr_ull(unsigned long long n)
-{
+	if (n < 0)
+	{
+		write(fd, "-", 1);
+		n *= -1;
+	}
 	if (n > 9)
 	{
-		ft_putnbr_ull(n / 10);
-		ft_putchar(n % 10 + '0');
+		ft_putnbr_fd(n / 10, fd);
+		ft_putchar_fd(n % 10 + '0', fd);
 	}
 	else
-		ft_putchar(n + '0');
+		ft_putchar_fd(n + '0', fd);
 }

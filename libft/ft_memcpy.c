@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/19 17:39:49 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/12/03 15:11:47 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
+void		*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	unsigned long long	div;
-	int					len;
+	size_t		i;
+	unsigned	*ptr;
+	unsigned	*ptr2;
 
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
+	i = 0;
+	ptr = (unsigned *)src;
+	ptr2 = (unsigned *)dst;
+	while (i < n)
 	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
-{
-	int		i;
-
-	i = 1;
-	while (nb /= base)
+		ptr2[i] = ptr[i];
 		i++;
-	return (i);
+	}
+	dst = (void *)ptr2;
+	return (dst);
 }

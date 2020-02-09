@@ -1,40 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/23 19:00:02 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/10/27 19:46:26 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	unsigned long long	div;
-	int					len;
+	size_t	i;
+	char	*copy;
 
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
-	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
-{
-	int		i;
-
-	i = 1;
-	while (nb /= base)
+	i = 0;
+	if (!s || !*s)
+		return (NULL);
+	while (s[i])
 		i++;
-	return (i);
+	if (!(copy = (char *)malloc(sizeof(char) * (i + 1))))
+		return (NULL);
+	copy[i] = '\0';
+	i = 0;
+	while (s[i])
+	{
+		copy[i] = s[i];
+		i++;
+	}
+	i = 0;
+	while (copy[i])
+	{
+		copy[i] = f(i, copy[i]);
+		i++;
+	}
+	return (copy);
 }

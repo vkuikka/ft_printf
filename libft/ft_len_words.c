@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_len_words.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/11/03 19:38:21 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/11/03 19:40:29 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
-{
-	unsigned long long	div;
-	int					len;
-
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
-	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
+int		*ft_len_words(const char *s, const char c)
 {
 	int		i;
+	int		size_i;
+	int		len;
+	int		*size;
 
-	i = 1;
-	while (nb /= base)
-		i++;
-	return (i);
+	len = 0;
+	i = 0;
+	size_i = 0;
+	size = (int *)malloc(sizeof(int) * ft_word_count(s, c));
+	while (s[i])
+	{
+		while (s[i] != c && s[i])
+		{
+			len++;
+			i++;
+		}
+		while (s[i] == c && s[i])
+			i++;
+		size[size_i] = len;
+		size_i += 1;
+		len = 0;
+	}
+	return (size);
 }

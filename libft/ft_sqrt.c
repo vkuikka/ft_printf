@@ -1,40 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/14 20:33:00 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/12/03 21:50:15 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
-
-int		ft_unsignedlen(unsigned long long num)
+int	ft_sqrt(int nb)
 {
-	unsigned long long	div;
-	int					len;
+	int root;
 
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
+	root = 2;
+	if (nb == 1)
+		return (1);
+	if (nb > 3)
 	{
-		div *= 10;
-		len++;
+		while (root * root < nb)
+			root += 1;
 	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
-{
-	int		i;
-
-	i = 1;
-	while (nb /= base)
-		i++;
-	return (i);
+	return (root);
 }

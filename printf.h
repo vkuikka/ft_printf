@@ -12,38 +12,54 @@
 
 #ifndef PRINTF_H
 # define PRINTF_H
-# include <stdarg.h>	//remove from ft_printf.c
+# include <stdarg.h>
 # include "libft.h"
 
 typedef struct	s_nums
 {
+	int			intsize;
 	int			precision;
+	int			width_pos;
 	int			width;
 	int			valid;
-	int			intsize;
 	char		filler;
 	char		prefix;
 }				t_nums;
 
-void	ft_putaddr(void *ptr);
+int				ft_printf(char *arg, ...);
 
-int		ft_printf(char *arg, ...);
-int		ft_float_len(double num, int floats);
-int		ft_putfloat(double num, int floats);
-void	ft_putnbr_ll(long long num);
-void	ft_putnbr_ull(unsigned long long num);
+/*
+**	PRINTING
+*/
+void			ft_putstr_len(char *str, size_t len);
+void			ft_putnchars(char c, int amount);
+void			ft_putnbr_ull(unsigned long long num);
+int				ft_putfloat(long double num, int floats);
+void			ft_putaddr(void *ptr);
 
-void	ft_putnchars(char c, int amount);
-void	ft_putstr_len(char *str, size_t len);
-int		ft_unsignedlen(unsigned long long num);
-int		ft_signedlen(long long num);
-size_t	ft_numlen_base(long long nb, int base);
+/*
+**	LENGTH
+*/
+int				ft_numlen_base(long long nb, int base);
+int				ft_unsignedlen(unsigned long long num);
+int				ft_float_len(long double num, int floats);
 
-int		ft_uinteger(unsigned long long num, t_nums info);
-int		ft_integer(long long num, t_nums info);
-int		ft_float(double num, t_nums info);
-int		ft_string(char *s, char c, t_nums info);
+/*
+**	OUTPUT HANDLING
+*/
+int				ft_float(long double num, t_nums info);
+int				ft_integer(long long num, t_nums info);
+int				ft_uinteger(unsigned long long num, t_nums info);
+int				ft_string(char *s, char c, t_nums info);
+int				ft_octal(unsigned long long nbr, t_nums info);
+int				ft_hex(unsigned long long nbr, t_nums info, int lowercase);
+int				ft_percent(t_nums info);
 
-int		ft_percent(int width, char filler);
+/*
+**	FUNCTION INPUT HANDLING
+*/
+int				ft_chars(va_list vl, t_nums info, char arg);
+int				ft_nums(va_list vl, t_nums info, char arg);
+t_nums			ft_flags(char *arg, t_nums info);
 
 #endif

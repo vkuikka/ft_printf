@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_new_char_arr.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/12/02 22:16:59 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/12/03 15:11:19 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
+char	**ft_new_char_arr(unsigned str_len, unsigned arr_len)
 {
-	unsigned long long	div;
-	int					len;
+	char			**ret;
+	unsigned		i;
 
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
+	i = 0;
+	if (!(ret = (char **)malloc(sizeof(char*) * arr_len)))
+		return (NULL);
+	while (i < arr_len)
 	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
-{
-	int		i;
-
-	i = 1;
-	while (nb /= base)
+		if (!(ret[i] = (char *)malloc(sizeof(char) * str_len)))
+			return (NULL);
+		ft_bzero(ret[i], str_len);
 		i++;
-	return (i);
+	}
+	return (ret);
 }

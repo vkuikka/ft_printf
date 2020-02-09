@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/15 15:29:41 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/12/13 17:50:59 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
-{
-	unsigned long long	div;
-	int					len;
-
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
-	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
+char	*ft_strdup(const char *src)
 {
 	int		i;
+	int		count;
+	char	*str;
 
-	i = 1;
-	while (nb /= base)
+	count = -1;
+	i = 0;
+	while (src[i])
 		i++;
-	return (i);
+	if (!(str = (char*)malloc(sizeof(str) * i)))
+		return (NULL);
+	while (++count < i)
+		str[count] = src[count];
+	str[count] = '\0';
+	return (str);
 }

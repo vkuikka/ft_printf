@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2020/02/09 16:16:02 by vkuikka           #+#    #+#             */
+/*   Updated: 2020/02/09 16:16:44 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
+void	ft_putnbr_base(unsigned long long n, int base, int lowercase)
 {
-	unsigned long long	div;
-	int					len;
+	char	*b;
 
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
+	b = lowercase ? "0123456789abcdef" : "0123456789ABCDEF";
+	if (n > (unsigned long long)base - 1)
 	{
-		div *= 10;
-		len++;
+		if (n / base)
+			ft_putnbr_base(n / base, base, lowercase);
+		ft_putchar(b[n % base]);
 	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
-{
-	int		i;
-
-	i = 1;
-	while (nb /= base)
-		i++;
-	return (i);
+	else
+		ft_putchar(b[n]);
 }

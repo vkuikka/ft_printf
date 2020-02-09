@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putaddr.c                                       :+:      :+:    :+:   */
+/*   ft_memdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/27 17:59:41 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/27 17:59:43 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/20 18:34:35 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/10/21 20:02:34 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putaddr(void *ptr)
+void	ft_memdel(void **ap)
 {
-	long	asd;
-
-	asd = (long)ptr;
-	ft_putstr(ft_itoa_base(asd, 16, 1));
+	if (*ap)
+		free(*ap);
+	*ap = NULL;
 }

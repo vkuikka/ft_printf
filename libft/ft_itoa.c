@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/20 22:37:27 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/12/06 20:02:38 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
+char	*ft_itoa(int n)
 {
-	unsigned long long	div;
-	int					len;
+	char			*str;
+	int				chars;
+	long			div;
+	long			num;
 
+	num = n;
 	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
-	{
+	chars = (num < 0 ? 2 : 1);
+	while (num / div && chars++ > 0)
 		div *= 10;
-		len++;
+	if (!(str = (char *)malloc(sizeof(char) * (chars + 1))))
+		return (NULL);
+	str[chars--] = '\0';
+	str[0] = num < 0 ? '-' : '0';
+	num *= num < 0 ? -1 : 1;
+	while (chars >= (str[0] == '-' ? 1 : 0))
+	{
+		str[chars] = num % 10 + '0';
+		num /= 10;
+		chars--;
 	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
-{
-	int		i;
-
-	i = 1;
-	while (nb /= base)
-		i++;
-	return (i);
+	return (str);
 }

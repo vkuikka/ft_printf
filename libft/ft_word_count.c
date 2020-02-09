@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_word_count.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/11/03 19:22:09 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/11/03 19:25:17 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
-
-int		ft_unsignedlen(unsigned long long num)
-{
-	unsigned long long	div;
-	int					len;
-
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
-	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
+int	ft_word_count(const char *s, const char c)
 {
 	int		i;
+	int		w;
 
-	i = 1;
-	while (nb /= base)
-		i++;
-	return (i);
+	w = 0;
+	i = 0;
+	while (s[i])
+	{
+		while (s[i] != c && s[i])
+			i++;
+		while (s[i] == c && s[i])
+			i++;
+		w++;
+	}
+	if (s[0] == c)
+		w--;
+	if (s[i] == c)
+		w--;
+	return (w);
 }

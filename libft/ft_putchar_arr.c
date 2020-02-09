@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_putarr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/12/02 18:14:24 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/12/02 18:40:04 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
+void	ft_putchar_arr(char **array, unsigned arr_len, unsigned str_len)
 {
-	unsigned long long	div;
-	int					len;
+	unsigned	x;
+	unsigned	y;
 
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
+	x = 0;
+	y = 0;
+	while (y < arr_len)
 	{
-		div *= 10;
-		len++;
+		x = 0;
+		while (x < str_len)
+		{
+			write(1, &array[y][x], 1);
+			write(1, " ", 1);
+			x++;
+		}
+		write(1, "\n", 1);
+		y++;
 	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
-{
-	int		i;
-
-	i = 1;
-	while (nb /= base)
-		i++;
-	return (i);
 }

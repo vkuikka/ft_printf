@@ -12,7 +12,7 @@
 
 #include "printf.h"
 
-static int	ft_putfloat_float(double num, int len)
+static int	ft_putfloat_float(long double num, int len)
 {
 	int reslen;
 	int	n;
@@ -40,7 +40,7 @@ static int	ft_putfloat_float(double num, int len)
 	return (reslen);
 }
 
-int			ft_putfloat(double num, int floats)
+int			ft_putfloat(long double num, int floats)
 {
 	int		div;
 	int		n;
@@ -65,7 +65,7 @@ int			ft_putfloat(double num, int floats)
 	return (reslen);
 }
 
-int			ft_float_len(double num, int floats)
+int			ft_float_len(long double num, int floats)
 {
 	int		div;
 	int		n;
@@ -85,6 +85,5 @@ int			ft_float_len(double num, int floats)
 		reslen++;
 	}
 	reslen += floats + 1;
-	// ft_putnbr(reslen);
 	return (reslen);
 }

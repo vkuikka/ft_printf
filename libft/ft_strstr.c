@@ -1,40 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/20 15:25:46 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/10/28 12:27:45 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
-{
-	unsigned long long	div;
-	int					len;
-
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
-	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
+char	*ft_strstr(const char *haystack, const char *needle)
 {
 	int		i;
+	int		in;
 
-	i = 1;
-	while (nb /= base)
-		i++;
-	return (i);
+	i = 0;
+	in = 0;
+	if (needle[0] == '\0')
+		return ((char *)haystack);
+	while (*haystack)
+	{
+		in = 0;
+		i = 0;
+		while (haystack[i] == needle[in])
+		{
+			i++;
+			in++;
+			if (!needle[in])
+				return ((char *)haystack);
+		}
+		haystack++;
+	}
+	return (NULL);
 }

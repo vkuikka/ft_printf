@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Created: 2019/10/20 15:25:46 by vkuikka           #+#    #+#             */
+/*   Updated: 2019/10/28 12:31:31 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "libft.h"
 
-int		ft_unsignedlen(unsigned long long num)
-{
-	unsigned long long	div;
-	int					len;
-
-	div = 10;
-	len = 1;
-	if (num > 9999999999999999999U)
-		return (20);
-	while (num / div)
-	{
-		div *= 10;
-		len++;
-	}
-	return (len);
-}
-
-int		ft_numlen_base(long long nb, int base)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	int		i;
+	int		len_copy;
 
-	i = 1;
-	while (nb /= base)
-		i++;
-	return (i);
+	i = 0;
+	if (!*needle)
+		return ((char *)haystack);
+	while (*haystack && len)
+	{
+		len--;
+		i = 0;
+		len_copy = len;
+		while (haystack[i] && haystack[i] == needle[i] && len_copy-- + 1)
+			if (!needle[++i])
+				return ((char *)haystack);
+		haystack++;
+	}
+	return (NULL);
 }
