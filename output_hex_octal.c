@@ -12,7 +12,7 @@
 
 #include "printf.h"
 
-int		ft_address(int addr, t_nums info)
+int		ft_address(long addr, t_nums info)
 {
 	if (info.width_pos == 1)
 		ft_putnchars(' ', info.width -

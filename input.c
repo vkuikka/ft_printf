@@ -76,7 +76,7 @@ int							ft_chars(va_list vl, t_nums info, char arg)
 							info), info, arg == 'x' ? 1 : 0);
 	}
 	else if (arg == 'p')
-		ft_address((long)va_arg(vl, void *), info);
+		info.width = ft_address((long)va_arg(vl, void *), info);
 	return (ft_abs(info.width));
 }
 

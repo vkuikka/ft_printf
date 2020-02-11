@@ -53,7 +53,7 @@ int				ft_string(char *s, char c, t_nums info);
 int				ft_octal(unsigned long long nbr, t_nums info);
 int				ft_hex(unsigned long long nbr, t_nums info, int lowercase);
 int				ft_percent(t_nums info);
-int				ft_address(int addr, t_nums info);
+int				ft_address(long addr, t_nums info);
 
 /*
 **	FUNCTION INPUT HANDLING
