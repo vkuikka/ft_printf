@@ -12,6 +12,30 @@
 
 #include "printf.h"
 
+int		ft_address(int addr, t_nums info)
+{
+	if (info.width_pos == 1)
+		ft_putnchars(' ', info.width -
+			(addr ? ft_numlen_base(addr, 16) + 2 : 3));
+	ft_putstr("0x");
+	if (info.precision)
+	{
+		ft_putnchars('0', info.precision -
+			(addr ? ft_numlen_base(addr, 16) : 1));
+		ft_putnbr_base(addr, 16, 1);
+	}
+	if (info.width_pos == -1)
+		ft_putnchars(' ', info.width -
+			(addr ? ft_numlen_base(addr, 16) + 2 : 3));
+	if (info.width < (addr ? ft_numlen_base(addr, 16) + 2 : 3))
+		info.width = (addr ? ft_numlen_base(addr, 16) + 2 : 3);
+	if (info.precision - (addr ? ft_numlen_base(addr, 16) + 2 : 1) > 0)
+		info.width = info.precision + 2;
+	else if (!info.precision)
+		info.width--;
+	return (ft_abs(info.width));
+}
+
 int		ft_octal(unsigned long long nbr, t_nums info)
 {
 	int		len;
@@ -28,17 +52,15 @@ int		ft_octal(unsigned long long nbr, t_nums info)
 		len = info.precision;
 	if (info.width_pos == 1 && info.width > len)
 		ft_putnchars(info.filler, info.width - len);
-	ft_putnchars('0', len - ft_numlen_base(nbr, 8));
 	if (nbr)
-		ft_putnbr_base(nbr, 8, 1);
-	else
-		write(1, "0", 1);
+		ft_putnchars('0', len - ft_numlen_base(nbr, 8));
+	ft_putnbr_base(nbr, 8, 1);
 	info.filler = ' ';
 	if (info.width_pos == -1 && info.width > len)
 		ft_putnchars(info.filler, info.width - len);
 	if (info.width > len)
 		len = info.width;
-	return (len);
+	return (len - (info.prefix == '#' && !nbr ? 1 : 0));
 }
 
 int		ft_hex(unsigned long long nbr, t_nums i, int lowercase)

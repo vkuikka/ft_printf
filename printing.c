@@ -12,14 +12,6 @@
 
 #include "printf.h"
 
-void	ft_putaddr(void *ptr)
-{
-	long	num;
-
-	num = (long)ptr;
-	ft_putnbr_base(num, 16, 1);
-}
-
 void	ft_putstr_len(char *str, size_t len)
 {
 	write(1, str, ft_strlen(str) > len ? (size_t)len : ft_strlen(str));

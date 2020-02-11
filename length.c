@@ -29,7 +29,7 @@ int		ft_unsignedlen(unsigned long long num)
 	return (len);
 }
 
-int		ft_numlen_base(long long nb, int base)
+int		ft_numlen_base(unsigned long long nb, int base)
 {
 	int		i;
 

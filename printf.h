@@ -35,12 +35,11 @@ void			ft_putstr_len(char *str, size_t len);
 void			ft_putnchars(char c, int amount);
 void			ft_putnbr_ull(unsigned long long num);
 int				ft_putfloat(long double num, int floats);
-void			ft_putaddr(void *ptr);
 
 /*
 **	LENGTH
 */
-int				ft_numlen_base(long long nb, int base);
+int				ft_numlen_base(unsigned long long nb, int base);
 int				ft_unsignedlen(unsigned long long num);
 int				ft_float_len(long double num, int floats);
 
@@ -54,6 +53,7 @@ int				ft_string(char *s, char c, t_nums info);
 int				ft_octal(unsigned long long nbr, t_nums info);
 int				ft_hex(unsigned long long nbr, t_nums info, int lowercase);
 int				ft_percent(t_nums info);
+int				ft_address(int addr, t_nums info);
 
 /*
 **	FUNCTION INPUT HANDLING

@@ -14,6 +14,8 @@
 
 char	*ft_skiparg(char *arg)
 {
+	if (*arg == '%')
+		return (arg);
 	while (*arg != 'd' && *arg != 'i' && *arg != 'o' && *arg != 'u' &&
 	*arg != 'f' && *arg != 'x' && *arg != 'X' && *arg != 'c' &&
 	*arg != 's' && *arg != 'p' && *arg != '%')
@@ -40,7 +42,7 @@ int		ft_printarg(char *arg, va_list vl)
 	t_nums	info;
 
 	info = ft_info_init();
-	while (info.valid)
+	while (info.valid && *arg)
 	{
 		if (*arg == '0' && info.precision == -1 && (info.filler = '0'))
 			arg++;
@@ -50,8 +52,8 @@ int		ft_printarg(char *arg, va_list vl)
 			while (ft_isdigit(*arg))
 				arg++;
 		}
-		if ((*arg == 'd' || *arg == 'i' || *arg == 'u' ||
-			*arg == 'f' || *arg == 'L') && !(info.valid = 0))
+		if ((*arg == 'd' || *arg == 'i' || *arg == 'u' || *arg == 'f') &&
+				!(info.valid = 0))
 			info.width = ft_nums(vl, info, *arg);
 		else if ((*arg == 's' || *arg == 'c' || *arg == 'o' ||
 				*arg == 'x' || *arg == 'X' || *arg == 'p') && !(info.valid = 0))
@@ -72,17 +74,18 @@ int		ft_printf(char *arg, ...)
 	va_start(vl, arg);
 	while (*arg)
 	{
-		if (*arg == '%' && *(arg++))
+		if (*arg == '%' && *(++arg))
 		{
-			len += ft_printarg(arg, vl);
+			if (*arg == '%' && ++len)
+				write(1, &*arg, 1);
+			else
+				len += ft_printarg(arg, vl);
 			arg = ft_skiparg(arg);
 		}
-		else
-		{
+		else if (*arg && ++len)
 			write(1, &*arg, 1);
-			len++;
-		}
-		arg++;
+		if (*arg)
+			arg++;
 	}
 	va_end(vl);
 	return (len);

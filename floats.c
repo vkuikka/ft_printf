@@ -11,79 +11,79 @@
 /* ************************************************************************** */
 
 #include "printf.h"
+#include <stdio.h>
 
 static int	ft_putfloat_float(long double num, int len)
 {
-	int reslen;
-	int	n;
-	int i;
+	char	n;
+	int		reslen;
+	int		i;
 
 	i = 0;
 	n = 0;
-	reslen = 0;
+	reslen = 1;
 	write(1, ".", 1);
-	while (i < len && i < 16 && (num *= 10))
+	while (i < len && i < 16)
 	{
-		n = num + '0';
-		write(1, &n, 1);
-		num -= n - '0';
+		num *= 10;
+		if ((long double)(int)num != num)
+			n = (int)(num + 0.1);
+		else
+			n = (int)num;
+		if (((unsigned long)num * 10 % 10) > 5)
+			n++;
+		ft_putchar(n + '0');
+		num -= n;
 		reslen++;
 		i++;
 	}
 	while (i++ < len && ++reslen)
 		write(1, "0", 1);
-	reslen++;
-	num *= 10;
-	n = num + '0';
-	if (!((num - (double)(int)num) * 10 < 5))
-		n++;
 	return (reslen);
 }
 
 int			ft_putfloat(long double num, int floats)
 {
-	int		div;
-	int		n;
-	int		reslen;
+	long double	cp;
+	int			div;
+	int			n;
+	int			reslen;
 
 	n = num;
 	div = 1;
 	reslen = 0;
-	while ((int)num / (div * 10))
-		div *= 10;
-	if (num < 0 && (num *= -1) && (++reslen))
-		write(1, "-", 1);
-	while (div && (n = num / div + '0'))
-	{
-		write(1, &n, 1);
-		num -= (n - '0') * div;
-		div = div == 1 ? 0 : div / 10;
-		reslen++;
-	}
+	cp = num;
+	while ((int)cp)
+		cp /= 10;
+	ft_putnbr_ull(num);
+	reslen = ft_numlen_base(num, 10);
+	num -= (unsigned long long)num;
 	if (floats && (reslen++))
 		reslen += ft_putfloat_float(num, floats);
+	reslen--;
 	return (reslen);
 }
 
 int			ft_float_len(long double num, int floats)
 {
-	int		div;
-	int		n;
-	int		reslen;
+	long double		cp;
+	int				n;
+	int				reslen;
 
 	n = num;
-	div = 1;
+	cp = num;
 	reslen = 0;
-	while ((int)num / (div * 10))
-		div *= 10;
-	if (num < 0 && (num *= -1))
-		reslen++;
-	while (div && (n = num / div + '0'))
+	while ((int)cp)
 	{
-		num -= (n - '0') * div;
-		div = div == 1 ? 0 : div / 10;
+		cp /= 10;
 		reslen++;
 	}
-	reslen += floats + 1;
+	while (num && floats)
+	{
+		num -= (long long)num;
+		num *= 10;
+		reslen++;
+		floats--;
+	}
 	return (reslen);
 }

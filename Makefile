@@ -6,7 +6,7 @@
 #    By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/08 13:46:11 by vkuikka           #+#    #+#              #
-#    Updated: 2020/02/09 15:34:05 by vkuikka          ###   ########.fr        #
+#    Updated: 2020/02/09 20:25:21 by vkuikka          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,20 +26,6 @@ $(NAME):
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
 
-main:
-	gcc -o test main.c libftprintf.a -I libft/includes
-
-mainre:
-	rm test
-	gcc -o test main.c libftprintf.a -I libft/includes
-
-real:
-	gcc -o realtest real.c
-
-realre:
-	rm realtest
-	gcc -o realtest real.c
-
 clean:
 	make clean -C libft
 	rm -f $(OBJ)
@@ -50,4 +36,3 @@ fclean: clean
 
 re: fclean
 	make all
-	make mainre
