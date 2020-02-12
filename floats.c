@@ -11,40 +11,65 @@
 /* ************************************************************************** */
 
 #include "printf.h"
+
+
 #include <stdio.h>
 
-static int	ft_putfloat_float(long double num, int len)
+
+static int	ft_check_precision(long double num, int precision)
 {
-	char	n;
-	int		reslen;
-	int		i;
+	unsigned long long	div;
+	int					len;
+	int					i;
 
 	i = 0;
-	n = 0;
-	reslen = 1;
-	write(1, ".", 1);
-	while (i < len && i < 16)
+	div = 1;
+	while (i++ < precision)
 	{
 		num *= 10;
-		if ((long double)(int)num != num)
-			n = (int)(num + 0.1);
-		else
-			n = (int)num;
-		if (((unsigned long)num * 10 % 10) > 5)
-			n++;
-		ft_putchar(n + '0');
-		num -= n;
-		reslen++;
-		i++;
+		div *= 10;
 	}
-	while (i++ < len && ++reslen)
-		write(1, "0", 1);
+	if (((unsigned long long)(num * 10) % 10) > 4)
+	{
+		len = ft_numlen_base(num, 10);
+		num++;
+		if ((unsigned long long)num % div == 0 || !precision)
+			return (0);
+	}
+	return (1);
+}
+
+static int	ft_putprec_float(long double num, int precision)
+{
+	unsigned long long	div;
+	int					reslen;
+	int					i;
+
+	i = 0;
+	div = 1;
+	reslen = 1;
+	write(1, ".", 1);
+	while (i++ < precision)
+	{
+		num *= 10;
+		div *= 10;
+	}
+	if (((unsigned long long)(num * 10) % 10) > 4)
+	{
+		reslen = ft_numlen_base(num, 10);
+		num++;
+		if ((ft_numlen_base(num, 10) != reslen && (unsigned long long)num % div == 0) || !precision)
+		{
+			ft_putnchars('0', precision);
+			return (precision);
+		}
+	}
+	ft_putnbr_ull(num);
 	return (reslen);
 }
 
-int			ft_putfloat(long double num, int floats)
+int			ft_putfloat(long double num, int precision)
 {
-	long double	cp;
 	int			div;
 	int			n;
 	int			reslen;
@@ -52,15 +77,12 @@ int			ft_putfloat(long double num, int floats)
 	n = num;
 	div = 1;
 	reslen = 0;
-	cp = num;
-	while ((int)cp)
-		cp /= 10;
+	if (precision && !ft_check_precision(num, precision))
+		num++;
 	ft_putnbr_ull(num);
-	reslen = ft_numlen_base(num, 10);
+	reslen += ft_numlen_base(num, 10);
 	num -= (unsigned long long)num;
-	if (floats && (reslen++))
-		reslen += ft_putfloat_float(num, floats);
-	reslen--;
+	reslen += ft_putprec_float(num, precision);
 	return (reslen);
 }
 
@@ -72,7 +94,9 @@ int			ft_float_len(long double num, int floats)
 
 	n = num;
 	cp = num;
-	reslen = 0;
+	if (num < 0)
+		num *= -1;
+	reslen = num < 1 ? 1 : 0;
 	while ((int)cp)
 	{
 		cp /= 10;

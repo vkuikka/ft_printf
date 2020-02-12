@@ -41,12 +41,16 @@ int		ft_octal(unsigned long long nbr, t_nums info)
 	int		len;
 
 	len = ft_numlen_base(nbr, 8) + (info.prefix == '#' ? 1 : 0);
-	if (!info.precision && !nbr)
+	info.filler = info.precision > 0 ? ' ' : info.filler;
+	if (!nbr)
 	{
-		if (info.prefix == '#')
+		// if (info.prefix == '#')
 			ft_putchar('0');
-		ft_putnchars(' ', info.width);
-		return (info.width + len - 1);
+		len += info.precision;
+		info.width -= len > 0 ? len : 0;
+		ft_putnchars(info.filler, info.width);
+		ft_putnchars(' ', len - 1);
+		return (info.width + len);
 	}
 	if (info.precision > len)
 		len = info.precision;
@@ -68,6 +72,7 @@ int		ft_hex(unsigned long long nbr, t_nums i, int lowercase)
 	int		len;
 
 	len = ft_numlen_base(nbr, 16);
+	i.filler = i.precision > 0 ? ' ' : i.filler;
 	if (!i.precision && !nbr)
 	{
 		ft_putnchars(' ', i.width);

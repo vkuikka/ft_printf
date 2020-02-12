@@ -16,21 +16,28 @@ int		ft_uinteger(unsigned long long num, t_nums info)
 {
 	int		len;
 
-	len = ft_unsignedlen(num) < info.precision ?
-			info.precision : ft_unsignedlen(num);
-	if (!num && !info.precision)
-		len = 0;
+	len = ft_unsignedlen(num);
+	len = !num && !info.precision ? 0 : len;
+	info.prefix = info.prefix == '#' ? 0 : info.prefix;
+	info.filler = info.precision > 0 ? ' ' : info.filler;
+	if (info.filler != ' ' && info.prefix)
+		ft_putchar(info.prefix);
 	if (info.width_pos == 1)
-		ft_putnchars(info.filler, info.width - len);
-	if (info.precision > ft_unsignedlen(num))
-		ft_putnchars('0', info.precision - ft_unsignedlen(num));
-	if (info.precision && num)
+		ft_putnchars(info.filler, info.width -
+		(info.precision > len ? info.precision : len) - !!(info.prefix));
+	if (info.filler == ' ' && info.prefix)
+		ft_putchar(info.prefix);
+	info.prefix = (info.width_pos == 1 && info.prefix == ' ' &&
+		info.width > info.precision && info.width > len) ? 0 : info.prefix;
+	if (info.precision > len)
+		ft_putnchars('0', info.precision - len);
+	if (num || (info.precision && !num))
 		ft_putnbr_ull(num);
-	else if (info.precision == -1 && !num)
-		write(1, "0", 1);
+	len = info.precision > len ? info.precision : len;
 	if (info.width_pos == -1)
-		ft_putnchars(' ', info.width - len);
-	return (len < info.width ? info.width : len);
+		ft_putnchars(' ', info.width - len - !!(info.prefix));
+	return ((len + !!(info.prefix)) < info.width ?
+			info.width : (len + !!(info.prefix)));
 }
 
 int		ft_integer(long long num, t_nums info)
@@ -95,26 +102,26 @@ int		ft_string(char *s, char c, t_nums info)
 {
 	int		len;
 
+	if (!s && c == -1)
+		s = "(null)";
 	len = s ? ft_strlen(s) : 1;
 	if (s && s[0] == '\0')
 		ft_putnchars(info.filler, info.width);
-	if (!s && c == -1 && (info.width = 6))
-		ft_putstr("(null)");
-	if ((!s && c == -1) || (s && s[0] == '\0'))
-		return (info.width);
+	if (!s && c == -1)
+		len = 6;
 	if (info.precision > -1 && info.precision < len)
 		len = info.precision;
 	if (info.width_pos == 1)
 		ft_putnchars(info.filler, info.width - len);
 	if (s)
 		ft_putstr_len(s, len);
-	else
+	else if (c != -1)
 		ft_putchar(c);
 	if (info.width_pos == -1)
 		ft_putnchars(' ', info.width - len);
 	if (len < info.width)
 		len = info.width;
-	return (len ? len : 1);
+	return (c == 0 && !len ? 1 : len);
 }
 
 int		ft_percent(t_nums info)

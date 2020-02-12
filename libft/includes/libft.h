@@ -6,7 +6,7 @@
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:44:12 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/02/09 16:17:48 by vkuikka          ###   ########.fr       */
+/*   Updated: 2020/02/12 18:28:01 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+long long			ft_pow(long long num, int pow);
 void				ft_putnbr_base(unsigned long long num,
 					int base, int lowercase);
 int					ft_atoi_base(const char *nb, int base);
