@@ -72,30 +72,33 @@ int		ft_integer(long long num, t_nums info)
 int		ft_float(long double num, t_nums info)
 {
 	int		len;
+	int		n;
 
+	n = 0;
 	len = 0;
 	if (info.precision == -1)
 		info.precision = 6;
-	if (num < 0 && ++len)
+	if ((num > 0 && info.prefix == '+') || info.prefix == ' ' || num < 0)
+		len++;
+	if (num < 0)
 	{
-		info.prefix = '-';
+		n = 1;
 		num *= -1;
 	}
-	len += ft_float_len(num, info.precision) + 1;
-	if ((num > 0 && info.prefix == '+') || info.prefix == ' ')
-		len++;
 	if (info.filler != ' ' && info.prefix && info.prefix != '#')
 		ft_putchar(info.prefix);
 	if (info.width_pos == 1)
 		ft_putnchars(info.filler, info.width - len);
 	if (info.filler == ' ' && info.prefix && info.prefix != '#')
 		ft_putchar(info.prefix);
-	ft_putfloat(num, info.precision);
+	len += ft_putfloat(num, info.precision, n);
+	if (!info.precision && info.prefix == '#' && ++len)
+		ft_putchar('.');
 	if (info.width_pos == -1)
 		ft_putnchars(' ', info.width - len);
-	if (len > ft_abs(info.width))
-		info.width = len;
-	return (info.width);
+	if (len < ft_abs(info.width))
+		len = info.width;
+	return (len);
 }
 
 int		ft_string(char *s, char c, t_nums info)

@@ -6,12 +6,12 @@
 #    By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/08 13:46:11 by vkuikka           #+#    #+#              #
-#    Updated: 2020/02/09 20:25:21 by vkuikka          ###   ########.fr        #
+#    Updated: 2020/02/12 20:34:42 by vkuikka          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
-FILES = ft_printf.c floats.c printing.c output_num_char.c output_hex_octal.c length.c input.c
+FILES = ft_printf.c floats.c printing.c output_num_char.c output_hex_octal_ptr.c length.c input.c
 OBJ = $(FILES:.c=.o)
 LIBFT = libft/libft.a
 INCLUDE = libft/includes

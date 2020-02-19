@@ -34,14 +34,13 @@ int				ft_printf(char *arg, ...);
 void			ft_putstr_len(char *str, size_t len);
 void			ft_putnchars(char c, int amount);
 void			ft_putnbr_ull(unsigned long long num);
-int				ft_putfloat(long double num, int floats);
+int				ft_putfloat(long double num, int floats, int negative);
 
 /*
 **	LENGTH
 */
 int				ft_numlen_base(unsigned long long nb, int base);
 int				ft_unsignedlen(unsigned long long num);
-int				ft_float_len(long double num, int floats);
 
 /*
 **	OUTPUT HANDLING

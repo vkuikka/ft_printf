@@ -44,13 +44,15 @@ int		ft_octal(unsigned long long nbr, t_nums info)
 	info.filler = info.precision > 0 ? ' ' : info.filler;
 	if (!nbr)
 	{
-		// if (info.prefix == '#')
+		info.width -= info.precision ? ft_abs(info.precision) : 0;
+		if (info.width_pos == 1)
+			ft_putnchars(info.filler, info.width);
+		if (info.precision)
 			ft_putchar('0');
-		len += info.precision;
-		info.width -= len > 0 ? len : 0;
-		ft_putnchars(info.filler, info.width);
-		ft_putnchars(' ', len - 1);
-		return (info.width + len);
+		ft_putnchars('0', info.precision - 1);
+		if (info.width_pos == -1)
+			ft_putnchars(' ', info.width);
+		return (info.width + (info.precision ? ft_abs(info.precision) : 0));
 	}
 	if (info.precision > len)
 		len = info.precision;
@@ -75,23 +77,23 @@ int		ft_hex(unsigned long long nbr, t_nums i, int lowercase)
 	i.filler = i.precision > 0 ? ' ' : i.filler;
 	if (!i.precision && !nbr)
 	{
-		ft_putnchars(' ', i.width);
+		ft_putnchars(i.filler, i.width);
 		return (i.width);
 	}
 	if (nbr && (i.prefix == 'x' || i.prefix == 'X') && i.filler != ' ')
 		ft_printf("%c%c", '0', i.prefix);
 	if (i.width_pos == 1)
-		ft_putnchars(i.filler, i.width - (len + (i.prefix == 'x' ||
-i.prefix == 'X' ? 2 : 0)) - (i.precision - len > 0 ? i.precision - len : 0));
+		ft_putnchars(i.filler, i.width - (len + (nbr && (i.prefix == 'x' ||
+i.prefix == 'X') ? 2 : 0)) - (i.precision - len > 0 ? i.precision - len : 0));
 	if (nbr && (i.prefix == 'x' || i.prefix == 'X') && i.filler == ' ')
 		ft_printf("%c%c", '0', i.prefix);
 	if (i.precision > len && (len = i.precision))
 		ft_putnchars('0', i.precision - ft_numlen_base(nbr, 16));
 	ft_putnbr_base(nbr, 16, lowercase);
-	len = (i.prefix == 'x' || i.prefix == 'X') ? len + 2 : len;
 	if (i.width_pos == -1)
-		ft_putnchars(' ', i.width - (len +
-		(i.precision - len > 0 ? i.precision - len : 0)));
+		ft_putnchars(i.filler, i.width - (len + (nbr && (i.prefix == 'x' ||
+i.prefix == 'X') ? 2 : 0)) - (i.precision - len > 0 ? i.precision - len : 0));
+	len = (i.prefix == 'x' || i.prefix == 'X') ? len + 2 : len;
 	i.width = len > i.width ? len : i.width;
-	return (nbr ? ft_abs(i.width) : 1);
+	return (ft_abs(i.width));
 }
