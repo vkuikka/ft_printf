@@ -40,7 +40,7 @@ int		ft_octal(unsigned long long nbr, t_nums i)
 {
 	int		len;
 
-	len = ft_numlen_base(nbr, 8) + (i.prefix == '#' ? 1 : 0);
+	len = ft_numlen_base(nbr, 8) + (i.prefix == '#');
 	i.filler = i.precision > 0 ? ' ' : i.filler;
 	if (!nbr)
 	{
@@ -56,13 +56,13 @@ int		ft_octal(unsigned long long nbr, t_nums i)
 		(ft_abs(i.precision) > 0 ? ft_abs(i.precision) : 0));
 	}
 	len = i.precision > len ? i.precision : len;
-	if (i.width_pos == 1 && i.width > len)
+	if (i.width_pos == 1)
 		ft_putnchars(i.filler, i.width - len);
 	ft_putnchars('0', nbr ? len - ft_numlen_base(nbr, 8) : 0);
 	ft_putnbr_base(nbr, 8, 1);
-	if (i.width_pos == -1 && i.width > len)
+	if (i.width_pos == -1)
 		ft_putnchars(' ', i.width - len);
-	return ((len < i.width ? i.width : len) - (i.prefix == '#' && !!nbr));
+	return ((len < i.width ? i.width : len) - (i.prefix == '#' && !nbr));
 }
 
 int		ft_hex(unsigned long long nbr, t_nums i, int lowercase)
