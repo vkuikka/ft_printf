@@ -77,7 +77,7 @@ static int	ft_precision_float(long double num, int precision)
 	return (precision + 1);
 }
 
-int			ft_putfloat(long double num, int precision, int negative)
+int			ft_putfloat(long double num, int precision)
 {
 	int			div;
 	int			n;
@@ -86,8 +86,6 @@ int			ft_putfloat(long double num, int precision, int negative)
 	n = num;
 	div = 1;
 	reslen = 0;
-	if (negative)
-		ft_putchar('-');
 	if (!ft_check_precision(num, precision))
 		num++;
 	ft_putnbr_ull(num);
@@ -96,4 +94,9 @@ int			ft_putfloat(long double num, int precision, int negative)
 	if (precision)
 		reslen += ft_precision_float(num, precision);
 	return (reslen);
+}
+
+int			ft_float_len(long double num, int precision)
+{
+	return (ft_numlen_base(num, 10) + !!(precision) + precision);
 }

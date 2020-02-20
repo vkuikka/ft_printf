@@ -65,7 +65,7 @@ int							ft_chars(va_list vl, t_nums info, char arg)
 	if (arg == 's')
 		info.width = ft_string(va_arg(vl, char *), -1, info);
 	else if (arg == 'c')
-		info.width = ft_string(NULL, (char)va_arg(vl, int), info);
+		info.width = ft_string(NULL, va_arg(vl, long long), info);
 	else if (arg == 'o')
 		info.width = ft_octal(ft_unsigned_type(va_arg(vl,
 				unsigned long long), info), info);

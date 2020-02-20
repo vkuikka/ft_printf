@@ -44,15 +44,17 @@ int		ft_octal(unsigned long long nbr, t_nums info)
 	info.filler = info.precision > 0 ? ' ' : info.filler;
 	if (!nbr)
 	{
-		info.width -= info.precision ? ft_abs(info.precision) : 0;
+		info.width -= (info.precision == -1) + (info.precision > 0 ? info.precision : 0);
+		if (info.prefix == '#')
+			info.precision = info.precision == 0 ? 1 : info.precision;
 		if (info.width_pos == 1)
 			ft_putnchars(info.filler, info.width);
-		if (info.precision)
-			ft_putchar('0');
-		ft_putnchars('0', info.precision - 1);
+		ft_putnchars('0', ft_abs(info.precision));
 		if (info.width_pos == -1)
 			ft_putnchars(' ', info.width);
-		return (info.width + (info.precision ? ft_abs(info.precision) : 0));
+		if (info.width < 0)
+			info.width = 0;
+		return (info.width + (ft_abs(info.precision) > 0 ? ft_abs(info.precision) : 0));
 	}
 	if (info.precision > len)
 		len = info.precision;
@@ -61,12 +63,9 @@ int		ft_octal(unsigned long long nbr, t_nums info)
 	if (nbr)
 		ft_putnchars('0', len - ft_numlen_base(nbr, 8));
 	ft_putnbr_base(nbr, 8, 1);
-	info.filler = ' ';
 	if (info.width_pos == -1 && info.width > len)
-		ft_putnchars(info.filler, info.width - len);
-	if (info.width > len)
-		len = info.width;
-	return (len - (info.prefix == '#' && !nbr ? 1 : 0));
+		ft_putnchars(' ', info.width - len);
+	return ((len < info.width ? info.width : len) - (info.prefix == '#' && !nbr ? 1 : 0));
 }
 
 int		ft_hex(unsigned long long nbr, t_nums i, int lowercase)
@@ -91,9 +90,9 @@ i.prefix == 'X') ? 2 : 0)) - (i.precision - len > 0 ? i.precision - len : 0));
 		ft_putnchars('0', i.precision - ft_numlen_base(nbr, 16));
 	ft_putnbr_base(nbr, 16, lowercase);
 	if (i.width_pos == -1)
-		ft_putnchars(i.filler, i.width - (len + (nbr && (i.prefix == 'x' ||
+		ft_putnchars(' ', i.width - (len + (nbr && (i.prefix == 'x' ||
 i.prefix == 'X') ? 2 : 0)) - (i.precision - len > 0 ? i.precision - len : 0));
-	len = (i.prefix == 'x' || i.prefix == 'X') ? len + 2 : len;
+	len = (i.prefix == 'x' || i.prefix == 'X') && nbr ? len + 2 : len;
 	i.width = len > i.width ? len : i.width;
 	return (ft_abs(i.width));
 }
