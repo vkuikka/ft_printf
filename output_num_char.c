@@ -18,7 +18,6 @@ int		ft_uinteger(unsigned long long num, t_nums info)
 
 	len = ft_unsignedlen(num);
 	len = !num && !info.precision ? 0 : len;
-	// info.prefix = info.prefix == '#' ? 0 : info.prefix;
 	info.prefix = 0;
 	info.filler = info.precision > 0 ? ' ' : info.filler;
 	if (info.filler != ' ' && info.prefix)
@@ -73,31 +72,28 @@ int		ft_integer(long long num, t_nums info)
 int		ft_float(long double num, t_nums info)
 {
 	int		len;
-	int		ng;
 
-	ng = 0;
-	len = 0;
 	info.precision = info.precision == -1 ? 6 : info.precision;
-	if (num < 0 && (ng = 1))
-		num *= -1;
-	info.prefix = (ng && info.prefix != '#') ? 0 : info.prefix;
-	info.width -= ft_float_len(num, info.precision) + (ng || (info.prefix && info.prefix != '#'));
-	if (info.filler != ' ' && info.prefix && info.prefix != '#' && !ng)
+	info.prefix = (num < 0 && info.prefix != '#') ? 0 : info.prefix;
+	info.width -= ft_float_len(num, info.precision) +
+				(num < 0 || (info.prefix && info.prefix != '#'));
+	if (info.filler != ' ' && info.prefix && info.prefix != '#' && num > 0)
 		ft_putchar(info.prefix);
-	if (ng && info.filler != ' ')
+	if (num < 0 && info.filler != ' ')
 		ft_putchar('-');
 	if (info.width_pos == 1)
 		ft_putnchars(info.filler, info.width);
-	if (info.filler == ' ' && info.prefix && info.prefix != '#' && !ng)
+	if (info.filler == ' ' && info.prefix && info.prefix != '#' && num > 0)
 		ft_putchar(info.prefix);
-	if (ng && info.filler == ' ')
+	if (num < 0 && info.filler == ' ')
 		ft_putchar('-');
-	len += ft_putfloat(num, info.precision);
+	len = ft_putfloat(num, info.precision);
 	if (!info.precision && info.prefix == '#' && ++len)
 		ft_putchar('.');
 	if (info.width_pos == -1)
 		ft_putnchars(' ', info.width);
-	return (len + (info.width > 0 ? info.width : 0) + (info.prefix && info.prefix != '#') + ng);
+	return (len + (info.width > 0 ? info.width : 0) +
+			(info.prefix && info.prefix != '#') + (num < 0));
 }
 
 int		ft_string(char *s, long long c, t_nums info)

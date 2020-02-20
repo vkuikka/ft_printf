@@ -36,36 +36,33 @@ int		ft_address(long addr, t_nums info)
 	return (ft_abs(info.width));
 }
 
-int		ft_octal(unsigned long long nbr, t_nums info)
+int		ft_octal(unsigned long long nbr, t_nums i)
 {
 	int		len;
 
-	len = ft_numlen_base(nbr, 8) + (info.prefix == '#' ? 1 : 0);
-	info.filler = info.precision > 0 ? ' ' : info.filler;
+	len = ft_numlen_base(nbr, 8) + (i.prefix == '#' ? 1 : 0);
+	i.filler = i.precision > 0 ? ' ' : i.filler;
 	if (!nbr)
 	{
-		info.width -= (info.precision == -1) + (info.precision > 0 ? info.precision : 0);
-		if (info.prefix == '#')
-			info.precision = info.precision == 0 ? 1 : info.precision;
-		if (info.width_pos == 1)
-			ft_putnchars(info.filler, info.width);
-		ft_putnchars('0', ft_abs(info.precision));
-		if (info.width_pos == -1)
-			ft_putnchars(' ', info.width);
-		if (info.width < 0)
-			info.width = 0;
-		return (info.width + (ft_abs(info.precision) > 0 ? ft_abs(info.precision) : 0));
+		i.width -= (i.precision == -1) + (i.precision > 0 ? i.precision : 0);
+		if (i.prefix == '#')
+			i.precision = i.precision == 0 ? 1 : i.precision;
+		if (i.width_pos == 1)
+			ft_putnchars(i.filler, i.width);
+		ft_putnchars('0', ft_abs(i.precision));
+		if (i.width_pos == -1)
+			ft_putnchars(' ', i.width);
+		return ((i.width < 0 ? 0 : i.width) +
+		(ft_abs(i.precision) > 0 ? ft_abs(i.precision) : 0));
 	}
-	if (info.precision > len)
-		len = info.precision;
-	if (info.width_pos == 1 && info.width > len)
-		ft_putnchars(info.filler, info.width - len);
-	if (nbr)
-		ft_putnchars('0', len - ft_numlen_base(nbr, 8));
+	len = i.precision > len ? i.precision : len;
+	if (i.width_pos == 1 && i.width > len)
+		ft_putnchars(i.filler, i.width - len);
+	ft_putnchars('0', nbr ? len - ft_numlen_base(nbr, 8) : 0);
 	ft_putnbr_base(nbr, 8, 1);
-	if (info.width_pos == -1 && info.width > len)
-		ft_putnchars(' ', info.width - len);
-	return ((len < info.width ? info.width : len) - (info.prefix == '#' && !nbr ? 1 : 0));
+	if (i.width_pos == -1 && i.width > len)
+		ft_putnchars(' ', i.width - len);
+	return ((len < i.width ? i.width : len) - (i.prefix == '#' && !!nbr));
 }
 
 int		ft_hex(unsigned long long nbr, t_nums i, int lowercase)
