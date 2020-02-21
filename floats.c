@@ -6,7 +6,7 @@
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 16:22:16 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/02/06 19:27:43 by vkuikka          ###   ########.fr       */
+/*   Updated: 2020/02/21 15:17:24 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,4 @@ int			ft_putfloat(long double num, int precision)
 			reslen += ft_precision_float(num, precision);
 	}
 	return (reslen);
-}
-
-int			ft_float_len(long double num, int precision)
-{
-	num *= num < 0 ? -1 : 1;
-	return (ft_numlen_base(num, 10) + !!(precision) + precision);
 }

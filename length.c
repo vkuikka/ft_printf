@@ -6,7 +6,7 @@
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 17:45:58 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/01/29 17:49:26 by vkuikka          ###   ########.fr       */
+/*   Updated: 2020/02/21 15:17:12 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,10 @@ int		ft_numlen_base(unsigned long long nb, int base)
 	while (nb /= base)
 		i++;
 	return (i);
+}
+
+int			ft_float_len(long double num, int precision)
+{
+	num *= num < 0 ? -1 : 1;
+	return (ft_numlen_base(num, 10) + !!(precision) + precision);
 }

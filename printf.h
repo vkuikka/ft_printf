@@ -6,7 +6,7 @@
 /*   By: vkuikka <vkuikka@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 22:06:27 by vkuikka           #+#    #+#             */
-/*   Updated: 2020/02/03 18:21:19 by vkuikka          ###   ########.fr       */
+/*   Updated: 2020/02/21 15:21:05 by vkuikka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct	s_nums
 int				ft_printf(char *arg, ...);
 
 /*
-**	PRINTING
+**	SIMPLE PRINTING FUNCTIONS
 */
 void			ft_putstr_len(char *str, size_t len);
 void			ft_putnchars(char c, int amount);
@@ -37,7 +37,7 @@ void			ft_putnbr_ull(unsigned long long num);
 int				ft_putfloat(long double num, int floats);
 
 /*
-**	LENGTH
+**	LENGTH COUNTING
 */
 int				ft_numlen_base(unsigned long long nb, int base);
 int				ft_unsignedlen(unsigned long long num);
