@@ -44,12 +44,16 @@ static unsigned long long	ft_unsigned_type(long long num, t_nums info)
 
 int							ft_nums(va_list vl, t_nums info, char arg)
 {
+	void			*ptr;
+
+	ptr = NULL;
+	if (arg != 'f')
+		ptr = va_arg(vl, void *);
 	if (arg == 'd' || arg == 'i')
-		info.width = ft_integer(ft_signed_type(va_arg(vl,
-				long long), info), info);
+		info.width = ft_integer(ft_signed_type((long long)ptr, info), info);
 	else if (arg == 'u')
-		info.width = ft_uinteger(ft_unsigned_type(va_arg(vl,
-				unsigned long long), info), info);
+		info.width = ft_uinteger(ft_unsigned_type(
+			(unsigned long long)ptr, info), info);
 	else if (arg == 'f')
 	{
 		if (info.intsize != 100)
@@ -62,21 +66,25 @@ int							ft_nums(va_list vl, t_nums info, char arg)
 
 int							ft_chars(va_list vl, t_nums info, char arg)
 {
+	void	*ptr;
+
+	ptr = NULL;
+	ptr = va_arg(vl, void *);
 	if (arg == 's')
-		info.width = ft_string(va_arg(vl, char *), -1, info);
-	else if (arg == 'c')
-		info.width = ft_string(NULL, va_arg(vl, long long), info);
+		info.width = ft_string(ptr, -1, info);
+	if (arg == 'c')
+		info.width = ft_string(NULL, (long long)ptr, info);
 	else if (arg == 'o')
-		info.width = ft_octal(ft_unsigned_type(va_arg(vl,
-				unsigned long long), info), info);
+		info.width = ft_octal(ft_unsigned_type(
+			(unsigned long long)ptr, info), info);
 	else if ((arg == 'x' || arg == 'X'))
 	{
 		info.prefix = info.prefix == '#' ? arg : info.prefix;
-		info.width = ft_hex(ft_unsigned_type(va_arg(vl, unsigned long long),
+		info.width = ft_hex(ft_unsigned_type((unsigned long long)ptr,
 							info), info, arg == 'x' ? 1 : 0);
 	}
 	else if (arg == 'p')
-		info.width = ft_address((long)va_arg(vl, void *), info);
+		info.width = ft_address((long)ptr, info);
 	return (ft_abs(info.width));
 }
 

@@ -16,11 +16,37 @@ char	*ft_skiparg(char *arg)
 {
 	if (*arg == '%')
 		return (arg);
-	while (*arg != 'd' && *arg != 'i' && *arg != 'o' && *arg != 'u' &&
+	while (*arg && *arg != 'd' && *arg != 'i' && *arg != 'o' && *arg != 'u' &&
 	*arg != 'f' && *arg != 'x' && *arg != 'X' && *arg != 'c' &&
 	*arg != 's' && *arg != 'p' && *arg != '%')
 		arg++;
 	return (arg);
+}
+
+int		ft_check_arg(char *arg)
+{
+	char	*tmp;
+
+	tmp = arg;
+	while (*tmp && (*tmp == '-' || *tmp == '+' || *tmp == ' ' ||
+			*tmp == '0' || *tmp == '#'))
+		tmp++;
+	while (*tmp && ft_isdigit(*tmp))
+		tmp++;
+	if (*tmp == '.' && *(tmp++))
+		while (*tmp && ft_isdigit(*tmp))
+			tmp++;
+	if (*tmp == 'l' || *tmp == 'L')
+		while (*tmp && (*tmp == 'l' || *tmp == 'L'))
+			tmp++;
+	else if (*tmp == 'h')
+		while (*tmp && *tmp == 'h')
+			tmp++;
+	if (*tmp == 'd' || *tmp == 'i' || *tmp == 'o' || *tmp == 'u' ||
+	*tmp == 'f' || *tmp == 'x' || *tmp == 'X' || *tmp == 'c' ||
+	*tmp == 's' || *tmp == 'p' || *tmp == '%')
+		return (1);
+	return (0);
 }
 
 t_nums	ft_info_init(void)
@@ -60,7 +86,7 @@ int		ft_printarg(char *arg, va_list vl)
 			info.width = ft_chars(vl, info, *arg);
 		else
 			info = ft_flags(arg, info);
-		arg = info.valid ? arg + 1 : arg;
+		arg = info.valid && *arg ? arg + 1 : arg;
 	}
 	return (info.width);
 }
@@ -74,11 +100,11 @@ int		ft_printf(char *arg, ...)
 	va_start(vl, arg);
 	while (*arg)
 	{
-		if (*arg == '%' && *(++arg))
+		if (*arg == '%' && *(++arg) && ft_check_arg(arg))
 		{
 			if (*arg == '%' && ++len)
 				write(1, &*arg, 1);
-			else
+			else if (*arg)
 				len += ft_printarg(arg, vl);
 			arg = ft_skiparg(arg);
 		}
